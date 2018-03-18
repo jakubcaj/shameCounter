@@ -1,6 +1,5 @@
 package com.idc.sterba.demo;
 
-import com.vaadin.annotations.StyleSheet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
@@ -26,7 +25,7 @@ public class NavigatorUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        getPage().setTitle("Navigation Example");
+        getPage().setTitle("Shame counter");
 
         container = new HorizontalLayout();
         navigator.init(this, container);
