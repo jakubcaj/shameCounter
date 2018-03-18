@@ -1,5 +1,7 @@
 package com.idc.sterba.demo;
 
+import com.vaadin.annotations.StyleSheet;
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
@@ -10,6 +12,8 @@ import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
+//@StyleSheet({"VAADIN/themes/m/styles.scss"})
+@Theme("valo")
 public class NavigatorUI extends UI {
     //Navigator navigator;
 

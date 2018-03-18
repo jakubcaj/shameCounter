@@ -18,6 +18,13 @@
         <java.version>1.9</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -63,6 +70,14 @@
             <artifactId>postgresql</artifactId>
             <version>9.4.1210</version>
         </dependency>
+
+
+        <!-- Vaadin addons -->
+        <dependency>
+            <groupId>org.vaadin.ui</groupId>
+            <artifactId>numberfield</artifactId>
+            <version>0.2.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -77,12 +92,68 @@
         </dependencies>
     </dependencyManagement>
 
+
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>nl.geodienstencentrum.maven</groupId>
+                    <artifactId>sass-maven-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-resources-plugin</artifactId>-->
+                <!--<version>3.0.2</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>copy-resources</id>-->
+                        <!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>copy-resources</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<outputDirectory>${basedir}/WEB-INF</outputDirectory>-->
+                            <!--<resources>-->
+                                <!--<resource>-->
+                                    <!--<directory>VAADIN/</directory>-->
+                                    <!--<filtering>true</filtering>-->
+                                <!--</resource>-->
+                            <!--</resources>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!-- SASS compilation -->
+            <!--<plugin>-->
+                <!--<groupId>nl.geodienstencentrum.maven</groupId>-->
+                <!--<artifactId>sass-maven-plugin</artifactId>-->
+                <!--<version>3.5.2</version>-->
+                <!--<configuration>-->
+                    <!--<resources>-->
+                        <!--<resource>-->
+                            <!--<source>-->
+                                <!--<directory>${basedir}/src/main/resources/VAADIN/themes/m</directory>-->
+                                <!--<includes>-->
+                                    <!--<include>**/*.scss</include>-->
+                                <!--</includes>-->
+                            <!--</source>-->
+                            <!--<relativeOutputDirectory>.</relativeOutputDirectory>-->
+                            <!--&lt;!&ndash;<destination>${project.build.directory}/${project.build.finalName}</destination>&ndash;&gt;-->
+                            <!--<destination>${basedir}/src/main/resources/VAADIN/themes/m</destination>-->
+                        <!--</resource>-->
+                    <!--</resources>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

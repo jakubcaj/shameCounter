@@ -4,6 +4,7 @@ import com.idc.sterba.demo.NavigatorUI;
 import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.Match;
 import com.idc.sterba.demo.service.EmployeeService;
+import com.idc.sterba.demo.view.component.OneSideTeamComponent;
 import com.vaadin.data.*;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.IntegerRangeValidator;
@@ -29,21 +30,24 @@ public class AddMatchView extends AbstractView {
         VerticalLayout mainVertical = new VerticalLayout();
 
         Binder<Match> binder = new BeanValidationBinder<>(Match.class);
+        mainVertical.addComponent(new OneSideTeamComponent(binder, employeeService.getAllEmployees()));
 
-        ComboBox<Employee> player1 = new ComboBox("player1", employeeService.getAllEmployees());
-        binder.forField(player1)
-                .asRequired()
-                .bind((ValueProvider<Match, Employee>) match -> match.getTeam1().getP1(),
-                        (Setter<Match, Employee>) (match, employee) -> match.getTeam1().setP1(employee))
-                ;
 
-        player1.setItemCaptionGenerator((ItemCaptionGenerator<Employee>) item -> item.getFirstName() + " " + item.getLastName());
-        mainVertical.addComponentsAndExpand(player1);
+
+//        ComboBox<Employee> player1 = new ComboBox("player1", employeeService.getAllEmployees());
+//        binder.forField(player1)
+//                .asRequired()
+//                .bind((ValueProvider<Match, Employee>) match -> match.getTeam1().getP1(),
+//                        (Setter<Match, Employee>) (match, employee) -> match.getTeam1().setP1(employee))
+//                ;
+//
+//        player1.setItemCaptionGenerator((ItemCaptionGenerator<Employee>) item -> item.getFirstName() + " " + item.getLastName());
+//        mainVertical.addComponentsAndExpand(player1);
 
         TextField goals1 = new TextField();
         mainVertical.addComponent(goals1);
         binder.forField(goals1)
-                .asRequired()
+                //.asRequired()
                 .withConverter(new StringToIntegerConverter("Cannot parse"))
                 .withValidator(new IntegerRangeValidator("Does not make sence", 0, 5))
                 .bind(Match::getGoals1, Match::setGoals1);
