@@ -41,11 +41,11 @@ public class OneSideTeamComponent extends HorizontalLayout {
 
     private ComboBox<Employee> buildPlayerCombo() {
         ComboBox<Employee> player = new ComboBox<>(null, employees);
-        binder.forField(player)
-                .asRequired()
-                .bind((ValueProvider<Match, Employee>) match -> match.getTeam1().getP1(),
-                        (Setter<Match, Employee>) (match, employee) -> match.getTeam1().setP1(employee))
-        ;
+//        binder.forField(player)
+//                .asRequired()
+//                .bind((ValueProvider<Match, Employee>) match -> match.getTeam1().getP1(),
+//                        (Setter<Match, Employee>) (match, employee) -> match.getTeam1().setP1(employee))
+//        ;
 
         player.setItemCaptionGenerator((ItemCaptionGenerator<Employee>) item -> item.getFirstName() + " " + item.getLastName());
 
@@ -54,11 +54,11 @@ public class OneSideTeamComponent extends HorizontalLayout {
 
     private NumberField buildGoalsField() {
         NumberField goals = new NumberField();
-        binder.forField(goals)
-                //.asRequired()
-                .withConverter(new StringToIntegerConverter("Cannot parse"))
-                .withValidator(new IntegerRangeValidator("Does not make sence", 0, 5))
-                .bind(Match::getGoals1, Match::setGoals1);
+//        binder.forField(goals)
+//                //.asRequired()
+//                .withConverter(new StringToIntegerConverter("Cannot parse"))
+//                .withValidator(new IntegerRangeValidator("Does not make sence", 0, 5))
+//                .bind(Match::getGoals1, Match::setGoals1);
         return goals;
     }
 }

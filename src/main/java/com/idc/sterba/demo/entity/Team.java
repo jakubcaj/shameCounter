@@ -1,18 +1,45 @@
 package com.idc.sterba.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Team {
     @Id
-    @SequenceGenerator(name = "team_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teamIdSeq")
+    @SequenceGenerator(name = "teamIdSeq", sequenceName = "team_id_seq", allocationSize = 1)
     private Long id;
 
-    @OneToOne
-    private Employee p1;
+    @ManyToOne
+    @JsonBackReference
+    private Round round;
 
-    @OneToOne
-    private Employee p2;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<TeamScore> teamScoreList;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<TeamPlayer> teamPlayerList;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Color color;
+
+    public Team() {
+
+    }
+
+    public Team(Employee goalman, Employee attacker, Round round, ColorEnum colorEnum) {
+        TeamPlayer goalManPlayer = new TeamPlayer(goalman, PlayerRoleEnum.GOALMAN, this);
+        TeamPlayer attackerPlayer = new TeamPlayer(attacker, PlayerRoleEnum.ATTACKER, this);
+
+        this.teamPlayerList = List.of(goalManPlayer, attackerPlayer);
+        this.round = round;
+        this.color = new Color(colorEnum);
+    }
 
     public Long getId() {
         return id;
@@ -22,19 +49,35 @@ public class Team {
         this.id = id;
     }
 
-    public Employee getP1() {
-        return p1;
+    public List<TeamScore> getTeamScoreList() {
+        return teamScoreList;
     }
 
-    public void setP1(Employee p1) {
-        this.p1 = p1;
+    public void setTeamScoreList(List<TeamScore> teamScoreList) {
+        this.teamScoreList = teamScoreList;
     }
 
-    public Employee getP2() {
-        return p2;
+    public List<TeamPlayer> getTeamPlayerList() {
+        return teamPlayerList;
     }
 
-    public void setP2(Employee p2) {
-        this.p2 = p2;
+    public void setTeamPlayerList(List<TeamPlayer> teamPlayerList) {
+        this.teamPlayerList = teamPlayerList;
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

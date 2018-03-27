@@ -1,11 +1,16 @@
 package com.idc.sterba.demo.repository;
 
 import com.idc.sterba.demo.entity.Employee;
-import com.idc.sterba.demo.entity.Match;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    //public void save(Match match);
+
+    @Query(value = "SELECT * FROM employee e WHERE concat(e.firstName, ' ', e.lastName) ILIKE concat('%', ?1, '%')",
+            nativeQuery = true)
+    List<Employee> findAllBySearchTerm(String term);
 }

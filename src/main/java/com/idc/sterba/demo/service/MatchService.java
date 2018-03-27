@@ -1,6 +1,9 @@
 package com.idc.sterba.demo.service;
 
+import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.entity.Match;
+import com.idc.sterba.demo.entity.Round;
+import com.idc.sterba.demo.entity.Team;
 import com.idc.sterba.demo.repository.MatchRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,13 @@ public class MatchService {
         Match match = matchRepository.getOne(id);
 //        match.getTeam1();
 //        match.getTeam2();
+        return match;
+    }
+
+    public Match saveMatch(MatchDTO matchDTO) {
+        Match match = new Match(matchDTO);
+
+        matchRepository.save(match);
         return match;
     }
 }

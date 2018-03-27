@@ -43,47 +43,47 @@ public class AddMatchTestView extends VerticalLayout implements View {
             public void buttonClick(Button.ClickEvent event) {
                 Match match = new Match();
                 //match.setId(1L);
-                {
-                    Team t1 = new Team();
-                    //t1.setId(2L);
-                    match.setTeam1(t1);
-
-                    Employee e1 = new Employee();
-                    //e1.setId(1L);
-                    e1.setFirstName("emp 1 fn");
-
-                    employeeRepository.save(e1);
-
-                    Employee e2 = new Employee();
-                    //e2.setId(2L);
-                    employeeRepository.save(e2);
-
-                    t1.setP1(e1);
-                    t1.setP2(e2);
-                    teamRepository.save(t1);
-                }
-
-                {
-                    Team t2 = new Team();
-                    //t2.setId(3L);
-                    match.setTeam2(t2);
-
-                    Employee e1 = new Employee();
-                    //e1.setId(3L);
-                    employeeRepository.save(e1);
-                    Employee e2 = new Employee();
-                    //e2.setId(4L);
-                    employeeRepository.save(e2);
-
-                    t2.setP1(e1);
-                    t2.setP2(e2);
-                    teamRepository.save(t2);
-                }
-
-                match.setGoals1(1);
-                match.setGoals2(2);
-
-                matchRepository.save(match);
+//                {
+//                    Team t1 = new Team();
+//                    //t1.setId(2L);
+//                    match.setTeam1(t1);
+//
+//                    Employee e1 = new Employee();
+//                    //e1.setId(1L);
+//                    e1.setFirstName("emp 1 fn");
+//
+//                    employeeRepository.save(e1);
+//
+//                    Employee e2 = new Employee();
+//                    //e2.setId(2L);
+//                    employeeRepository.save(e2);
+//
+//                    t1.setP1(e1);
+//                    t1.setP2(e2);
+//                    teamRepository.save(t1);
+//                }
+//
+//                {
+//                    Team t2 = new Team();
+//                    //t2.setId(3L);
+//                    match.setTeam2(t2);
+//
+//                    Employee e1 = new Employee();
+//                    //e1.setId(3L);
+//                    employeeRepository.save(e1);
+//                    Employee e2 = new Employee();
+//                    //e2.setId(4L);
+//                    employeeRepository.save(e2);
+//
+//                    t2.setP1(e1);
+//                    t2.setP2(e2);
+//                    teamRepository.save(t2);
+//                }
+//
+//                match.setGoals1(1);
+//                match.setGoals2(2);
+//
+//                matchRepository.save(match);
             }
         });
         addComponent(button);
@@ -91,10 +91,10 @@ public class AddMatchTestView extends VerticalLayout implements View {
         Button b2 = new Button("load", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                Match match = matchService.getMatch(7L);
-
-                Label l = new Label(match.getTeam1().getP1().getFirstName());
-                AddMatchTestView.this.addComponent(l);
+//                Match match = matchService.getMatch(7L);
+//
+//                Label l = new Label(match.getTeam1().getP1().getFirstName());
+//                AddMatchTestView.this.addComponent(l);
             }
         });
 
