@@ -5,6 +5,13 @@ public class JSONResponse {
     private boolean success;
     private String errorMessage;
 
+    public JSONResponse() {}
+
+    public JSONResponse(Object object) {
+        this.object = object;
+        this.success = true;
+    }
+
     public Object getObject() {
         return object;
     }

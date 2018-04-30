@@ -1,10 +1,13 @@
 package com.idc.sterba.demo.controller.rest;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.idc.sterba.demo.dto.JSONResponse;
 import com.idc.sterba.demo.dto.MatchDTO;
+import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.Match;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.MatchService;
+import com.idc.sterba.demo.service.SecurityService;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +20,13 @@ public class RestController {
     private final EmployeeService employeeService;
     private final MatchService matchService;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final SecurityService securityService;
 
-    public RestController(EmployeeService employeeService, MatchService matchService, SimpMessagingTemplate simpMessagingTemplate) {
+    public RestController(EmployeeService employeeService, MatchService matchService, SimpMessagingTemplate simpMessagingTemplate, SecurityService securityService) {
         this.employeeService = employeeService;
         this.matchService = matchService;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.securityService = securityService;
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
@@ -52,6 +57,25 @@ public class RestController {
         jsonResponse.setObject(match);
         this.simpMessagingTemplate.convertAndSend("/chat", match);
         return jsonResponse;
+    }
+
+    @RequestMapping(value = "/authenticated", method = RequestMethod.POST)
+    public JSONResponse isAuthenticated() {
+        return new JSONResponse(securityService.isUserAuthenticated());
+    }
+
+    @RequestMapping(value = "/loggedUser", method = RequestMethod.POST)
+    public JSONResponse loggedUser() {
+        return new JSONResponse(securityService.getLoggedUser());
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public JSONResponse register(@RequestBody RegisterFormDTO registerFormDTO) {
+        employeeService.registerEmployee(registerFormDTO);
+        JSONResponse jsonResponse = new JSONResponse();
+        jsonResponse.setSuccess(true);
+        return jsonResponse;
+
     }
 
 }

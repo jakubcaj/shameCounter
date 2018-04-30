@@ -1,5 +1,10 @@
 package com.idc.sterba.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.idc.sterba.demo.dto.RegisterFormDTO;
+import com.idc.sterba.demo.entity.secure.EmployeeRole;
+import com.idc.sterba.demo.entity.secure.Role;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,6 +24,20 @@ public class Employee {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<PlayerGroup> playerGroup;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<EmployeeRole> roles;
+
+    public Employee() {
+    }
+
+    public Employee(RegisterFormDTO registerFormDTO, Role role) {
+        this.firstName = registerFormDTO.getFirstName();
+        this.lastName = registerFormDTO.getLastName();
+
+        roles = List.of(new EmployeeRole(role, this));
+    }
 
     public Long getId() {
         return id;
@@ -50,5 +69,13 @@ public class Employee {
 
     public void setPlayerGroup(List<PlayerGroup> playerGroup) {
         this.playerGroup = playerGroup;
+    }
+
+    public List<EmployeeRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<EmployeeRole> roles) {
+        this.roles = roles;
     }
 }

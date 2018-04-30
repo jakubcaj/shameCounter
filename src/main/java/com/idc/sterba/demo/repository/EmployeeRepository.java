@@ -13,4 +13,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query(value = "SELECT * FROM employee e WHERE concat(e.firstName, ' ', e.lastName) ILIKE concat('%', ?1, '%')",
             nativeQuery = true)
     List<Employee> findAllBySearchTerm(String term);
+
+    @Query(value = "SELECT * from employee e " +
+            "join secure.employee_metadata em on em.employee_id = e.id " +
+            "where em.username = ?1", nativeQuery = true)
+    Employee findByUsername(String username);
+
 }

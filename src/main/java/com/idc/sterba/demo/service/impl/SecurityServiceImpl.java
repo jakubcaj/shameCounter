@@ -1,0 +1,36 @@
+package com.idc.sterba.demo.service.impl;
+
+import com.idc.sterba.demo.entity.Employee;
+import com.idc.sterba.demo.repository.EmployeeRepository;
+import com.idc.sterba.demo.service.SecurityService;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SecurityServiceImpl implements SecurityService {
+
+    private final EmployeeRepository employeeRepository;
+
+    public SecurityServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    @Override
+    public Employee getLoggedUser() {
+        return employeeRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    @Override
+    public boolean isUserAuthenticated() {
+        return !SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
+    }
+
+    @Override
+    public String hashPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
+    }
+}
