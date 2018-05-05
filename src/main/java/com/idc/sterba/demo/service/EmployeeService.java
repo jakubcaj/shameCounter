@@ -10,5 +10,7 @@ public interface EmployeeService {
 
     List<Employee> getEmployeesByTerm(String term);
 
+    Employee getEmployeeById(Long id);
+
     void registerEmployee(RegisterFormDTO registerFormDTO);
 }

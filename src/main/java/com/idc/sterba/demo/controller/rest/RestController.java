@@ -75,7 +75,11 @@ public class RestController {
         JSONResponse jsonResponse = new JSONResponse();
         jsonResponse.setSuccess(true);
         return jsonResponse;
+    }
 
+    @RequestMapping(value = "/test/test", method = RequestMethod.POST)
+    public void sendTest() {
+        this.simpMessagingTemplate.convertAndSend("/team/1");
     }
 
 }

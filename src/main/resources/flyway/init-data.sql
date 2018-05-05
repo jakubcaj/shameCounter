@@ -10,3 +10,5 @@ insert into secure.role(id, comment, name) values (1, 'Can do anything', 'ROLE_A
 insert into secure.employee_metadata(id, email, password, username, employee_id)
 values (1, 'scarletWitch@avengers.com', '$2a$10$QVcRG.yL54ht.VdAbV0lI.BEJayCXAu5clF8jmDZ4m38RIuISJt0W','wanda', 8);
 insert into secure.employee_role(id, employee_id, role_id) VALUES (1, 8, 1);
+insert into player_group values (1, 'ITG');
+insert into employee_player_group values (8, 1);

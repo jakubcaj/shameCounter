@@ -12,6 +12,11 @@ public class JSONResponse {
         this.success = true;
     }
 
+    public JSONResponse(Object object, boolean success) {
+        this.object = object;
+        this.success = success;
+    }
+
     public Object getObject() {
         return object;
     }

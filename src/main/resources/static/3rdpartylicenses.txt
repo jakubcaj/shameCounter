@@ -1,4 +1,4 @@
-url-parse@1.2.0
+url-parse@1.4.0
 MIT
 The MIT License (MIT)
 

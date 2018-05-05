@@ -32,14 +32,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.securityService = securityService;
     }
 
+    @Override
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll(new Sort(Sort.Direction.ASC, "lastName"));
     }
 
+    @Override
     public List<Employee> getEmployeesByTerm(String term) {
         return employeeRepository.findAllBySearchTerm(term);
     }
 
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.getOne(id);
+    }
+
+    @Override
     public void registerEmployee(RegisterFormDTO registerFormDTO) {
         registerFormDTO.setPassword(securityService.hashPassword(registerFormDTO.getPassword()));
 
