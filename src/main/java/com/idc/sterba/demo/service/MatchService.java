@@ -26,8 +26,13 @@ public class MatchService {
     }
 
     public Match saveMatch(MatchDTO matchDTO) {
-        Match match = new Match(matchDTO);
 
+        Match match;
+        if (matchDTO == null) {
+            match = new Match();
+        } else {
+            match = new Match(matchDTO);
+        }
         matchRepository.save(match);
         return match;
     }

@@ -49,16 +49,6 @@ public class RestController {
         return jsonResponse;
     }
 
-    @RequestMapping(value = "/create/match", method = RequestMethod.POST)
-    public JSONResponse createMatch(@RequestBody MatchDTO matchDTO) {
-
-        JSONResponse jsonResponse = new JSONResponse();
-        Match match = matchService.saveMatch(matchDTO);
-        jsonResponse.setObject(match);
-        this.simpMessagingTemplate.convertAndSend("/chat", match);
-        return jsonResponse;
-    }
-
     @RequestMapping(value = "/authenticated", method = RequestMethod.POST)
     public JSONResponse isAuthenticated() {
         return new JSONResponse(securityService.isUserAuthenticated());
