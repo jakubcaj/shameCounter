@@ -6,9 +6,7 @@ import com.idc.sterba.demo.entity.Match;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.service.MatchDraftService;
 import com.idc.sterba.demo.service.MatchService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,5 +51,12 @@ public class MatchController {
         jsonResponse.setObject(matchDraftService.getMatchDraftById(id));
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/draft/position/update/{matchDraftId}", method = RequestMethod.POST)
+    public JSONResponse updateMatchDraftPosition(@RequestBody MatchDTO matchDTO, @PathVariable Long matchDraftId) {
+        matchDraftService.updateMatchDraft(matchDraftId, matchDTO);
+        return new JSONResponse(null, true);
+    }
+
 
 }
