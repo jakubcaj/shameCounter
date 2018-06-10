@@ -19,11 +19,11 @@ public class Team {
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
     @JsonManagedReference
-    private List<TeamScore> teamScoreList;
+    private List<TeamPlayer> teamPlayerList;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.PERSIST)
     @JsonManagedReference
-    private List<TeamPlayer> teamPlayerList;
+    private List<TeamScore> teamScoreList;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Color color;

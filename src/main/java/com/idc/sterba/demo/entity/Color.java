@@ -37,6 +37,3 @@ public class Color {
     }
 }
 
-enum ColorEnum {
-    BLUE, RED
-}

@@ -2,7 +2,8 @@ package com.idc.sterba.demo.controller.rest;
 
 import com.idc.sterba.demo.dto.JSONResponse;
 import com.idc.sterba.demo.dto.MatchDTO;
-import com.idc.sterba.demo.entity.Match;
+import com.idc.sterba.demo.dto.PlayerGoalDTO;
+import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.service.MatchDraftService;
 import com.idc.sterba.demo.service.MatchService;
@@ -24,8 +25,8 @@ public class MatchController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public JSONResponse createMatch(@RequestBody(required = false) MatchDTO matchDTO) {
         JSONResponse jsonResponse = new JSONResponse();
-        Match match = matchService.saveMatch(matchDTO);
-        jsonResponse.setObject(match);
+        matchService.saveMatch(matchDTO);
+        jsonResponse.setObject(matchDTO);
         return jsonResponse;
     }
 
@@ -56,6 +57,14 @@ public class MatchController {
     public JSONResponse updateMatchDraftPosition(@RequestBody MatchDTO matchDTO, @PathVariable Long matchDraftId) {
         matchDraftService.updateMatchDraft(matchDraftId, matchDTO);
         return new JSONResponse(null, true);
+    }
+
+    @RequestMapping(value = "/player/goal", method = RequestMethod.POST)
+    public JSONResponse savePlayerGoal(@RequestBody PlayerGoalDTO playerGoalDTO) {
+        this.matchService.saveGoal(playerGoalDTO);
+
+        ScoreDTO scoreDTO = this.matchService.getScoreOfRound(playerGoalDTO.getMatchId());
+        return new JSONResponse(scoreDTO, true);
     }
 
 

@@ -1,10 +1,7 @@
 package com.idc.sterba.demo.controller.rest;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.idc.sterba.demo.dto.JSONResponse;
-import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
-import com.idc.sterba.demo.entity.Match;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.MatchService;
 import com.idc.sterba.demo.service.SecurityService;

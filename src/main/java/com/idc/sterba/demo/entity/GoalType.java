@@ -14,6 +14,13 @@ public class GoalType {
     @Enumerated(EnumType.STRING)
     private GoalTypeEnum type;
 
+    public GoalType() {
+    }
+
+    public GoalType(GoalTypeEnum type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }
@@ -31,10 +38,3 @@ public class GoalType {
     }
 }
 
-enum GoalTypeEnum {
-
-    GOAL,
-    OWN_GOAL,
-    STAMP,
-    FAGGY_GOAL
-}

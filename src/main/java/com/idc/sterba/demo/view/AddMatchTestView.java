@@ -1,9 +1,7 @@
 package com.idc.sterba.demo.view;
 
 import com.idc.sterba.demo.NavigatorUI;
-import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.Match;
-import com.idc.sterba.demo.entity.Team;
 import com.idc.sterba.demo.repository.EmployeeRepository;
 import com.idc.sterba.demo.repository.MatchRepository;
 import com.idc.sterba.demo.repository.TeamRepository;
@@ -12,7 +10,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 @SpringView(name = "addMatchTest", ui = NavigatorUI.class)

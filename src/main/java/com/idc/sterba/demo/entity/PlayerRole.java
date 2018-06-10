@@ -38,7 +38,3 @@ public class PlayerRole {
     }
 }
 
-enum PlayerRoleEnum {
-    ATTACKER,
-    GOALMAN
-}
