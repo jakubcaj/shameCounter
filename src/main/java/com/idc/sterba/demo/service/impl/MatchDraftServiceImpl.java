@@ -1,7 +1,5 @@
 package com.idc.sterba.demo.service.impl;
 
-import com.idc.sterba.demo.dto.MatchDTO;
-import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.repository.MatchDraftRepository;
 import com.idc.sterba.demo.service.MatchDraftService;
@@ -29,15 +27,17 @@ public class MatchDraftServiceImpl implements MatchDraftService {
 
     @Override
     public void updateMatchDraft(MatchDraft matchDraft) {
-        MatchDraft actualMatchDraft = matchDraftRepository.getOne(matchDraft.getId());
-        actualMatchDraft.setInvitedPlayerList(matchDraft.getInvitedPlayerList());
-        matchDraftRepository.save(actualMatchDraft);
+        if(matchDraft.getId() != null) {
+            MatchDraft actualMatchDraft = matchDraftRepository.getOne(matchDraft.getId());
+            actualMatchDraft.setInvitedPlayerList(matchDraft.getInvitedPlayerList());
+            matchDraftRepository.save(actualMatchDraft);
+        }
     }
 
-    @Override
-    public void updateMatchDraft(Long matchDraftId, MatchDTO matchDTO) {
-        MatchDraft matchDraft = new MatchDraft(matchDTO);
-        matchDraft.setId(matchDraftId);
-        matchDraftRepository.save(matchDraft);
-    }
+//    @Override
+//    public void updateMatchDraft(Long matchDraftId, MatchDTO matchDTO) {
+//        MatchDraft matchDraft = new MatchDraft(matchDTO);
+//        matchDraft.setId(matchDraftId);
+//        matchDraftRepository.save(matchDraft);
+//    }
 }

@@ -1,9 +1,7 @@
 package com.idc.sterba.demo.controller;
 
-import com.google.gwt.core.client.debug.JsoInspector;
 import com.idc.sterba.demo.dto.GroupDTO;
 import com.idc.sterba.demo.dto.JSONResponse;
-import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.MatchDraftService;
@@ -49,7 +47,7 @@ public class WebSocketController {
 
     @MessageMapping("/match/draft/position/change/{matchDraftId}")
     @SendTo("/match/draft/position/{matchDraftId}")
-    public JSONResponse onPositionChange(MatchDTO matchDTO) {
-        return new JSONResponse(matchDTO, true);
+    public JSONResponse onPositionChange(MatchDraft matchDraft) {
+        return new JSONResponse(matchDraft, true);
     }
 }
