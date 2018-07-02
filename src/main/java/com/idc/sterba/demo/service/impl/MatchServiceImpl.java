@@ -9,7 +9,6 @@ import com.idc.sterba.demo.repository.TeamRepository;
 import com.idc.sterba.demo.repository.TeamScoreRepository;
 import com.idc.sterba.demo.service.MatchService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +27,18 @@ public class MatchServiceImpl implements MatchService {
         this.teamScoreRepository = teamScoreRepository;
     }
 
-    @Transactional
+    @Override
     public Match getMatch(Long id) {
         return matchRepository.getOne(id);
     }
 
+    @Override
+    public MatchDTO getMatchDto(Long id) {
+       return new MatchDTO(matchRepository.getOne(id));
+
+    }
+
+    @Override
     public Match saveMatch(MatchDTO matchDTO) {
         Match match = new Match(matchDTO);
         matchRepository.save(match);
@@ -40,6 +46,7 @@ public class MatchServiceImpl implements MatchService {
         return match;
     }
 
+    @Override
     public void saveGoal(PlayerGoalDTO playerGoalDTO) {
         Team team = teamRepository.getTeamByMatchId(playerGoalDTO.getMatchId(), playerGoalDTO.getEmployee().getId());
         TeamScore teamScore = new TeamScore(team, playerGoalDTO.getEmployee(), new GoalType(playerGoalDTO.getGoalType()));
@@ -48,6 +55,7 @@ public class MatchServiceImpl implements MatchService {
         teamRepository.save(team);
     }
 
+    @Override
     public ScoreDTO getScoreOfRound(Long matchId) {
         Match match = matchRepository.getOne(matchId);
 

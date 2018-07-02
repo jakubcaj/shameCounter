@@ -13,4 +13,6 @@ public interface MatchService {
     void saveGoal(PlayerGoalDTO playerGoalDTO);
 
     ScoreDTO getScoreOfRound(Long matchId);
+
+    MatchDTO getMatchDto(Long id);
 }

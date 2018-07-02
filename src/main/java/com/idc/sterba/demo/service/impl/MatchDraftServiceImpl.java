@@ -28,16 +28,7 @@ public class MatchDraftServiceImpl implements MatchDraftService {
     @Override
     public void updateMatchDraft(MatchDraft matchDraft) {
         if(matchDraft.getId() != null) {
-            MatchDraft actualMatchDraft = matchDraftRepository.getOne(matchDraft.getId());
-            actualMatchDraft.setInvitedPlayerList(matchDraft.getInvitedPlayerList());
-            matchDraftRepository.save(actualMatchDraft);
+            matchDraftRepository.save(matchDraft);
         }
     }
-
-//    @Override
-//    public void updateMatchDraft(Long matchDraftId, MatchDTO matchDTO) {
-//        MatchDraft matchDraft = new MatchDraft(matchDTO);
-//        matchDraft.setId(matchDraftId);
-//        matchDraftRepository.save(matchDraft);
-//    }
 }

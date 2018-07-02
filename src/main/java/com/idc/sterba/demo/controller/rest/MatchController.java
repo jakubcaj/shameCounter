@@ -7,9 +7,7 @@ import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.service.MatchDraftService;
 import com.idc.sterba.demo.service.MatchService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +20,11 @@ public class MatchController {
     public MatchController(MatchService matchService, MatchDraftService matchDraftService) {
         this.matchService = matchService;
         this.matchDraftService = matchDraftService;
+    }
+
+    @RequestMapping(value = "/{matchId}", method = RequestMethod.POST)
+    public JSONResponse getMatch(@PathVariable("matchId") Long matchId) {
+        return new JSONResponse(matchService.getMatchDto(matchId));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -54,12 +57,6 @@ public class MatchController {
         jsonResponse.setObject(matchDraftService.getMatchDraftById(id));
         return jsonResponse;
     }
-
-//    @RequestMapping(value = "/draft/position/update", method = RequestMethod.POST)
-//    public JSONResponse updateMatchDraftPosition(@RequestBody MatchDraft matchDraft) {
-//        matchDraftService.updateMatchDraft(matchDraftId, matchDTO);
-//        return new JSONResponse(null, true);
-//    }
 
     @RequestMapping(value = "/player/goal", method = RequestMethod.POST)
     public JSONResponse savePlayerGoal(@RequestBody PlayerGoalDTO playerGoalDTO) {
