@@ -19,4 +19,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "where em.username = ?1", nativeQuery = true)
     Employee findByUsername(String username);
 
+    @Query(value = "SELECT * from employee e " +
+            "join employee_player_group g on e.id = g.employee_id " +
+            "where g.playergroup_id = ?1"
+            , nativeQuery = true)
+    List<Employee> findAllByPlayerGroupId(Long id);
+
 }

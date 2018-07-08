@@ -2,13 +2,10 @@ package com.idc.sterba.demo.service.impl;
 
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.Employee;
-import com.idc.sterba.demo.entity.PlayerGroup;
 import com.idc.sterba.demo.entity.secure.EmployeeMetadata;
 import com.idc.sterba.demo.entity.secure.Role;
 import com.idc.sterba.demo.repository.EmployeeMetadataRepository;
 import com.idc.sterba.demo.repository.EmployeeRepository;
-import com.idc.sterba.demo.repository.PlayerGroupRepository;
-import com.idc.sterba.demo.repository.RoleRepository;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.RoleService;
 import com.idc.sterba.demo.service.SecurityService;
@@ -45,6 +42,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeById(Long id) {
         return employeeRepository.getOne(id);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByGroup(Long groupId) {
+        return employeeRepository.findAllByPlayerGroupId(groupId);
     }
 
     @Override

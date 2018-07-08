@@ -12,5 +12,7 @@ public interface EmployeeService {
 
     Employee getEmployeeById(Long id);
 
+    List<Employee> getEmployeesByGroup(Long groupId);
+
     void registerEmployee(RegisterFormDTO registerFormDTO);
 }
