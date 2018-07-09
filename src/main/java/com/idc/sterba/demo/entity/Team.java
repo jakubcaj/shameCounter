@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Team {
@@ -39,6 +40,14 @@ public class Team {
         this.teamPlayerList = List.of(goalManPlayer, attackerPlayer);
         this.round = round;
         this.color = new Color(colorEnum);
+    }
+
+    public void updateEmployeePositions(Employee goalman, Employee attacker) {
+        TeamPlayer goalmanT = getTeamPlayer(PlayerRoleEnum.GOALMAN);
+        TeamPlayer attackerT = getTeamPlayer(PlayerRoleEnum.ATTACKER);
+        goalmanT.setEmployee(goalman);
+        attackerT.setEmployee(attacker);
+
     }
 
     public Long getId() {
@@ -79,5 +88,11 @@ public class Team {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    private TeamPlayer getTeamPlayer(PlayerRoleEnum playerRoleEnum) {
+        return this.teamPlayerList.stream()
+                .filter(teamPlayer -> teamPlayer.getPlayerRole().getPlayerRole().equals(playerRoleEnum))
+                .collect(Collectors.toList()).get(0);
     }
 }

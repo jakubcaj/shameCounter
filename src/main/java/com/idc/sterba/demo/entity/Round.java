@@ -42,18 +42,22 @@ public class Round {
     public Round(Round round) {
         this.match = round.getMatch();
         this.match.getRoundList().add(this);
-        Team tBlueTeam = round.getTeamList().stream()
-                .filter(team -> team.getColor().getColorEnum().equals(ColorEnum.BLUE))
-                .collect(Collectors.toList()).get(0);
-        Team tRedTeam = round.getTeamList().stream()
-                .filter(team -> team.getColor().getColorEnum().equals(ColorEnum.RED))
-                .collect(Collectors.toList()).get(0);
+        Team tBlueTeam = getTeam(round, ColorEnum.BLUE);
+        Team tRedTeam = getTeam(round, ColorEnum.RED);
 
         Team blueTeam = new Team(PlayerUtil.getEmployeeFromTeam(tRedTeam, PlayerRoleEnum.GOALMAN),
                 PlayerUtil.getEmployeeFromTeam(tRedTeam, PlayerRoleEnum.ATTACKER), this, ColorEnum.BLUE);
         Team redTeam = new Team(PlayerUtil.getEmployeeFromTeam(tBlueTeam, PlayerRoleEnum.GOALMAN),
                 PlayerUtil.getEmployeeFromTeam(tBlueTeam, PlayerRoleEnum.ATTACKER), this, ColorEnum.RED);
         this.teamList = List.of(blueTeam, redTeam);
+    }
+
+    public void updateEmployeesPosition(MatchDTO matchDTO) {
+        Team blueTeam = getTeam(this, ColorEnum.BLUE);
+        Team redTeam = getTeam(this, ColorEnum.RED);
+
+        blueTeam.updateEmployeePositions(matchDTO.getBlueGoalman(), matchDTO.getBlueAttacker());
+        redTeam.updateEmployeePositions(matchDTO.getRedGoalman(), matchDTO.getRedAttacker());
     }
 
     public Long getId() {
@@ -86,5 +90,11 @@ public class Round {
 
     public void setRunning(Boolean running) {
         this.running = running;
+    }
+
+    private Team getTeam(Round round, ColorEnum colorEnum) {
+        return round.getTeamList().stream()
+                .filter(team -> team.getColor().getColorEnum().equals(colorEnum))
+                .collect(Collectors.toList()).get(0);
     }
 }

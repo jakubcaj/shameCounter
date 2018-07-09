@@ -2,7 +2,6 @@ package com.idc.sterba.demo.service.impl;
 
 import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.entity.Round;
-import com.idc.sterba.demo.repository.MatchRepository;
 import com.idc.sterba.demo.repository.RoundRepository;
 import com.idc.sterba.demo.service.RoundService;
 import com.idc.sterba.demo.util.PlayerUtil;
@@ -12,11 +11,9 @@ import org.springframework.stereotype.Service;
 public class RoundServiceImpl implements RoundService {
 
     private RoundRepository roundRepository;
-    private MatchRepository matchRepository;
 
-    public RoundServiceImpl(RoundRepository roundRepository, MatchRepository matchRepository) {
+    public RoundServiceImpl(RoundRepository roundRepository) {
         this.roundRepository = roundRepository;
-        this.matchRepository = matchRepository;
     }
 
     @Override
@@ -27,5 +24,14 @@ public class RoundServiceImpl implements RoundService {
         Round newRound = new Round(round);
         roundRepository.save(newRound);
         return PlayerUtil.createMatchDTOFromMatch(newRound.getMatch());
+    }
+
+    @Override
+    public MatchDTO updateRound(MatchDTO matchDTO) {
+        Round round = roundRepository.getRoundByMatch_IdAndRunning(matchDTO.getMatchId(), true);
+        round.updateEmployeesPosition(matchDTO);
+        roundRepository.save(round);
+
+        return PlayerUtil.createMatchDTOFromMatch(round.getMatch());
     }
 }

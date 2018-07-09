@@ -3,9 +3,7 @@ package com.idc.sterba.demo.controller.rest;
 import com.idc.sterba.demo.dto.JSONResponse;
 import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.service.RoundService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,5 +19,11 @@ public class RoundController {
     public JSONResponse finishRound(@PathVariable("matchId") Long matchId) {
         MatchDTO matchDTO = roundService.finishRound(matchId);
         return new JSONResponse(matchDTO, true);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public JSONResponse updateRound(@RequestBody MatchDTO matchDTO) {
+
+        return new JSONResponse(roundService.updateRound(matchDTO));
     }
 }
