@@ -20,6 +20,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findByUsername(String username);
 
     @Query(value = "SELECT * from employee e " +
+            "join secure.employee_metadata em on em.employee_id = e.id " +
+            "where em.email = ?1", nativeQuery = true)
+    Employee findByEmail(String email);
+
+    @Query(value = "SELECT * from employee e " +
             "join employee_player_group g on e.id = g.employee_id " +
             "where g.playergroup_id = ?1"
             , nativeQuery = true)

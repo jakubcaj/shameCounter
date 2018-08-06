@@ -6,11 +6,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class BaseController {
 
-    @RequestMapping("/angular")
-    public ModelAndView index() {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("index.html");
-        return model;
-    }
+//    @RequestMapping("/angular")
+//    public ModelAndView index() {
+//        ModelAndView model = new ModelAndView();
+//        model.setViewName("index.html");
+//        return model;
+//    }
 
 }

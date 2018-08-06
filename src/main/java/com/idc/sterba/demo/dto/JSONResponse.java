@@ -1,6 +1,8 @@
 package com.idc.sterba.demo.dto;
 
-public class JSONResponse {
+import java.io.Serializable;
+
+public class JSONResponse implements Serializable {
     private Object object;
     private boolean success;
     private String errorMessage;

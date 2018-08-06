@@ -13,10 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -69,9 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
                 .logoutSuccessHandler(this::logoutSuccessHandler)
-                .and().exceptionHandling()
-                .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
-                        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+//                .and().exceptionHandling()
+//                .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
+//                        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .logout()
                 .permitAll();
@@ -99,9 +97,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         response.setStatus(HttpStatus.OK.value());
         objectMapper.writeValue(response.getWriter(), "Bye!");
     }
-
-//    public static void main(String[] args) {
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        System.out.print(" ");
-//    }
 }
