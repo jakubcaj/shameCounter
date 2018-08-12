@@ -1,4 +1,4 @@
-package com.idc.sterba.demo.entity;
+package com.idc.sterba.demo.entity.enums;
 
 public enum PlayerRoleEnum {
     ATTACKER,

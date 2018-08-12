@@ -1,7 +1,7 @@
 package com.idc.sterba.demo.dto;
 
 import com.idc.sterba.demo.entity.Employee;
-import com.idc.sterba.demo.entity.GoalTypeEnum;
+import com.idc.sterba.demo.entity.enums.GoalTypeEnum;
 
 public class PlayerGoalDTO {
     private Long matchId;

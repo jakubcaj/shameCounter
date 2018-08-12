@@ -5,6 +5,8 @@ import com.idc.sterba.demo.dto.PlayerGoalDTO;
 import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.Match;
 
+import java.util.List;
+
 public interface MatchService {
     Match getMatch(Long id);
 
@@ -12,7 +14,11 @@ public interface MatchService {
 
     void saveGoal(PlayerGoalDTO playerGoalDTO);
 
-    ScoreDTO getScoreOfRound(Long matchId);
-
     MatchDTO getMatchDto(Long id);
+
+    List<MatchDTO> getAllUnfinishedMatches();
+
+    ScoreDTO getScore(Long matchId);
+
+    void finishMatch(Long matchId);
 }

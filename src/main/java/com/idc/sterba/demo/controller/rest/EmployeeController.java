@@ -1,12 +1,12 @@
 package com.idc.sterba.demo.controller.rest;
 
 import com.idc.sterba.demo.dto.JSONResponse;
+import com.idc.sterba.demo.service.EmployeeMetadataService;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.PlayerGroupService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/employee")
@@ -14,11 +14,13 @@ public class EmployeeController {
 
     private PlayerGroupService teamService;
     private EmployeeService employeeService;
+    private EmployeeMetadataService employeeMetadataService;
 
 
-    public EmployeeController(PlayerGroupService teamService, EmployeeService employeeService) {
+    public EmployeeController(PlayerGroupService teamService, EmployeeService employeeService, EmployeeMetadataService employeeMetadataService) {
         this.teamService = teamService;
         this.employeeService = employeeService;
+        this.employeeMetadataService = employeeMetadataService;
     }
 
     @RequestMapping(value = "/groups", method = RequestMethod.POST)
@@ -35,4 +37,16 @@ public class EmployeeController {
         jsonResponse.setObject(employeeService.getEmployeesByGroup(groupId));
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/upload/picture", method = RequestMethod.POST)
+    public JSONResponse uploadPicture(@RequestParam MultipartFile file, @RequestParam Long user) {
+        this.employeeMetadataService.savePicture(file, user);
+        return new JSONResponse();
+    }
+
+    @RequestMapping(value = "/get/picture", method = RequestMethod.POST)
+    public JSONResponse getPicture(@RequestBody Long userId) {
+        return new JSONResponse(this.employeeMetadataService.getPicture(userId));
+    }
+
 }

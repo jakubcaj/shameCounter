@@ -1,6 +1,7 @@
 package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.idc.sterba.demo.entity.enums.GoalTypeEnum;
 
 import javax.persistence.*;
 
@@ -65,13 +66,14 @@ public class TeamScore {
     @OneToOne
     private Employee employee;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private GoalType goalType;
+    @Column(name = "goal_type")
+    @Enumerated(EnumType.STRING)
+    private GoalTypeEnum goalType;
 
     public TeamScore() {
     }
 
-    public TeamScore(Team team, Employee employee, GoalType goalType) {
+    public TeamScore(Team team, Employee employee, GoalTypeEnum goalType) {
         this.team = team;
         this.employee = employee;
         this.goalType = goalType;
@@ -101,11 +103,11 @@ public class TeamScore {
         this.employee = employee;
     }
 
-    public GoalType getGoalType() {
+    public GoalTypeEnum getGoalType() {
         return goalType;
     }
 
-    public void setGoalType(GoalType goalType) {
+    public void setGoalType(GoalTypeEnum goalType) {
         this.goalType = goalType;
     }
 }

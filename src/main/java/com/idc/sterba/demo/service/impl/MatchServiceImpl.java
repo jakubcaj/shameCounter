@@ -3,11 +3,15 @@ package com.idc.sterba.demo.service.impl;
 import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.dto.PlayerGoalDTO;
 import com.idc.sterba.demo.dto.ScoreDTO;
-import com.idc.sterba.demo.entity.*;
+import com.idc.sterba.demo.entity.Match;
+import com.idc.sterba.demo.entity.Round;
+import com.idc.sterba.demo.entity.Team;
+import com.idc.sterba.demo.entity.TeamScore;
 import com.idc.sterba.demo.repository.MatchRepository;
 import com.idc.sterba.demo.repository.TeamRepository;
-import com.idc.sterba.demo.repository.TeamScoreRepository;
 import com.idc.sterba.demo.service.MatchService;
+import com.idc.sterba.demo.service.RoundService;
+import com.idc.sterba.demo.util.ScoreUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,24 +22,47 @@ public class MatchServiceImpl implements MatchService {
 
     private MatchRepository matchRepository;
     private TeamRepository teamRepository;
-    private TeamScoreRepository teamScoreRepository;
+    private RoundService roundService;
 
-    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository,
-                            TeamScoreRepository teamScoreRepository) {
+    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, RoundService roundService) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
-        this.teamScoreRepository = teamScoreRepository;
+        this.roundService = roundService;
     }
 
     @Override
     public Match getMatch(Long id) {
-        return matchRepository.getOne(id);
+        return matchRepository.getMatchByFinishedAndId(false, id);
     }
 
     @Override
     public MatchDTO getMatchDto(Long id) {
-       return new MatchDTO(matchRepository.getOne(id));
+        Match match = getMatch(id);
 
+        if(match == null) {
+            return null;
+        }
+       return new MatchDTO(match);
+
+    }
+
+    @Override
+    public List<MatchDTO> getAllUnfinishedMatches() {
+        return matchRepository.findAllByFinishedOrderByIdAsc(false).stream().map(MatchDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public ScoreDTO getScore(Long matchId) {
+        Match match = getMatch(matchId);
+        return ScoreUtil.getScoreForMatch(match);
+    }
+
+    @Override
+    public void finishMatch(Long matchId) {
+        Match match = getMatch(matchId);
+        match.setFinished(true);
+        this.matchRepository.save(match);
+        this.roundService.finishRound(match.getRoundList().stream().filter(Round::isRunning).collect(Collectors.toList()).get(0));
     }
 
     @Override
@@ -49,47 +76,11 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void saveGoal(PlayerGoalDTO playerGoalDTO) {
         Team team = teamRepository.getTeamByMatchId(playerGoalDTO.getMatchId(), playerGoalDTO.getEmployee().getId());
-        TeamScore teamScore = new TeamScore(team, playerGoalDTO.getEmployee(), new GoalType(playerGoalDTO.getGoalType()));
+        TeamScore teamScore = new TeamScore(team, playerGoalDTO.getEmployee(), playerGoalDTO.getGoalType());
 
         team.getTeamScoreList().add(teamScore);
         teamRepository.save(team);
     }
 
-    @Override
-    public ScoreDTO getScoreOfRound(Long matchId) {
-        Match match = matchRepository.getOne(matchId);
 
-        List<TeamScore> blueTeam = getTeamScoreFromMatch(match, ColorEnum.BLUE);
-        List<TeamScore> redTeam = getTeamScoreFromMatch(match, ColorEnum.RED);
-
-        ScoreDTO scoreDTO = new ScoreDTO();
-        calculateScore(blueTeam, redTeam, scoreDTO);
-
-        return scoreDTO;
-    }
-
-    private List<TeamScore> getTeamScoreFromMatch(Match match, ColorEnum color) {
-        return match.getRoundList().stream()
-                .filter(Round::isRunning)
-                .flatMap(round -> round.getTeamList().stream()
-                        .filter(team -> team.getColor().getColorEnum().equals(color))
-                        .flatMap(team -> team.getTeamScoreList().stream())).collect(Collectors.toList());
-    }
-
-    private void calculateScore(List<TeamScore> blueTeam, List<TeamScore> redTeam, ScoreDTO scoreDTO) {
-        for(TeamScore score : blueTeam) {
-            if(score.getGoalType().getType().equals(GoalTypeEnum.OWN_GOAL)) {
-                scoreDTO.addRedTEam();
-            } else {
-                scoreDTO.addBlueTeam();
-            }
-        }
-        for(TeamScore score : redTeam) {
-            if(score.getGoalType().getType().equals(GoalTypeEnum.OWN_GOAL)) {
-                scoreDTO.addBlueTeam();
-            } else {
-                scoreDTO.addRedTEam();
-            }
-        }
-    }
 }

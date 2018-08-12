@@ -2,6 +2,8 @@ package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.idc.sterba.demo.entity.enums.ColorEnum;
+import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,8 +28,9 @@ public class Team {
     @JsonManagedReference
     private List<TeamScore> teamScoreList;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Color color;
+    @Column(name = "color")
+    @Enumerated(EnumType.STRING)
+    private ColorEnum color;
 
     public Team() {
 
@@ -39,7 +42,7 @@ public class Team {
 
         this.teamPlayerList = List.of(goalManPlayer, attackerPlayer);
         this.round = round;
-        this.color = new Color(colorEnum);
+        this.color = colorEnum;
     }
 
     public void updateEmployeePositions(Employee goalman, Employee attacker) {
@@ -82,17 +85,17 @@ public class Team {
         this.round = round;
     }
 
-    public Color getColor() {
+    public ColorEnum getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(ColorEnum color) {
         this.color = color;
     }
 
     private TeamPlayer getTeamPlayer(PlayerRoleEnum playerRoleEnum) {
         return this.teamPlayerList.stream()
-                .filter(teamPlayer -> teamPlayer.getPlayerRole().getPlayerRole().equals(playerRoleEnum))
+                .filter(teamPlayer -> teamPlayer.getPlayerRole().equals(playerRoleEnum))
                 .collect(Collectors.toList()).get(0);
     }
 }

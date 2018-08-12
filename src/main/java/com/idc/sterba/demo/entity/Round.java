@@ -3,6 +3,8 @@ package com.idc.sterba.demo.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.idc.sterba.demo.dto.MatchDTO;
+import com.idc.sterba.demo.entity.enums.ColorEnum;
+import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 import com.idc.sterba.demo.util.PlayerUtil;
 
 import javax.persistence.*;
@@ -94,7 +96,7 @@ public class Round {
 
     private Team getTeam(Round round, ColorEnum colorEnum) {
         return round.getTeamList().stream()
-                .filter(team -> team.getColor().getColorEnum().equals(colorEnum))
+                .filter(team -> team.getColor().equals(colorEnum))
                 .collect(Collectors.toList()).get(0);
     }
 }

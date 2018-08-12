@@ -1,9 +1,9 @@
 package com.idc.sterba.demo.dto;
 
-import com.idc.sterba.demo.entity.ColorEnum;
 import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.Match;
-import com.idc.sterba.demo.entity.PlayerRoleEnum;
+import com.idc.sterba.demo.entity.enums.ColorEnum;
+import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 
 public class MatchDTO {
 

@@ -2,6 +2,8 @@ package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.idc.sterba.demo.dto.MatchDTO;
+import com.idc.sterba.demo.entity.enums.ColorEnum;
+import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +20,9 @@ public class Match {
     @OneToMany(mappedBy = "match", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<Round> roundList;
+
+    @Column
+    private boolean finished = false;
 
     public Match() {
     }
@@ -43,14 +48,23 @@ public class Match {
         this.roundList = roundList;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     public Employee getPlayer(PlayerRoleEnum playerRole, ColorEnum color) {
         return roundList.stream().filter(Round::isRunning).map(round -> {
-            return round.getTeamList().stream().filter(team -> team.getColor().getColorEnum().equals(color)).map(team -> {
-                return team.getTeamPlayerList().stream().filter(teamPlayer -> teamPlayer.getPlayerRole().getPlayerRole().equals(playerRole))
+            return round.getTeamList().stream().filter(team -> team.getColor().equals(color)).map(team -> {
+                return team.getTeamPlayerList().stream().filter(teamPlayer -> teamPlayer.getPlayerRole().equals(playerRole))
                         .map(TeamPlayer::getEmployee).collect(Collectors.toList()).get(0);
             }).collect(Collectors.toList()).get(0);
         }).collect(Collectors.toList()).get(0);
     }
+
 
 
 }

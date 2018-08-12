@@ -1,6 +1,7 @@
 package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 
 import javax.persistence.*;
 
@@ -19,15 +20,16 @@ public class TeamPlayer {
     @OneToOne
     private Employee employee;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private PlayerRole playerRole;
+    @Column(name = "player_role")
+    @Enumerated(EnumType.STRING)
+    private PlayerRoleEnum playerRole;
 
     public TeamPlayer() {}
 
     public TeamPlayer(Employee employee, PlayerRoleEnum playerRoleEnum, Team team) {
         this.team = team;
         this.employee = employee;
-        this.playerRole = new PlayerRole(playerRoleEnum);
+        this.playerRole = playerRoleEnum;
     }
 
     public Long getId() {
@@ -54,11 +56,11 @@ public class TeamPlayer {
         this.employee = employee;
     }
 
-    public PlayerRole getPlayerRole() {
+    public PlayerRoleEnum getPlayerRole() {
         return playerRole;
     }
 
-    public void setPlayerRole(PlayerRole playerRole) {
+    public void setPlayerRole(PlayerRoleEnum playerRole) {
         this.playerRole = playerRole;
     }
 }

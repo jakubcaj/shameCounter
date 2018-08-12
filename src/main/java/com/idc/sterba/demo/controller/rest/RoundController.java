@@ -26,4 +26,10 @@ public class RoundController {
 
         return new JSONResponse(roundService.updateRound(matchDTO));
     }
+
+    @RequestMapping(value = "/current/score", method = RequestMethod.POST)
+    public JSONResponse updateRound(@RequestBody Long matchId) {
+
+        return new JSONResponse(roundService.getScoreOfRound(matchId));
+    }
 }

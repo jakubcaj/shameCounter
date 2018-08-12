@@ -26,6 +26,10 @@ public class EmployeeMetadata {
     @Column(name = "email")
     private String email;
 
+    @Lob
+    @Column
+    private byte[] profilePicture;
+
     public EmployeeMetadata() {
     }
 
@@ -74,5 +78,13 @@ public class EmployeeMetadata {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
