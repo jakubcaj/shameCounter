@@ -1,8 +1,11 @@
 package com.idc.sterba.demo.dto;
 
+import com.idc.sterba.demo.entity.TeamScore;
+
 public class ScoreDTO {
     private Long blueTeam;
     private Long redTeam;
+    private TeamScore teamScore;
 
     public ScoreDTO() {
         this.blueTeam = 0L;
@@ -36,5 +39,13 @@ public class ScoreDTO {
 
     public void addRedTEam() {
         this.redTeam++;
+    }
+
+    public TeamScore getTeamScore() {
+        return teamScore;
+    }
+
+    public void setTeamScore(TeamScore teamScore) {
+        this.teamScore = teamScore;
     }
 }

@@ -74,12 +74,14 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public void saveGoal(PlayerGoalDTO playerGoalDTO) {
+    public TeamScore saveGoal(PlayerGoalDTO playerGoalDTO) {
         Team team = teamRepository.getTeamByMatchId(playerGoalDTO.getMatchId(), playerGoalDTO.getEmployee().getId());
         TeamScore teamScore = new TeamScore(team, playerGoalDTO.getEmployee(), playerGoalDTO.getGoalType());
 
         team.getTeamScoreList().add(teamScore);
         teamRepository.save(team);
+
+        return team.getTeamScoreList().get(team.getTeamScoreList().size() -1);
     }
 
 

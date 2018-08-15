@@ -4,6 +4,7 @@ import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.dto.PlayerGoalDTO;
 import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.Match;
+import com.idc.sterba.demo.entity.TeamScore;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface MatchService {
 
     Match saveMatch(MatchDTO matchDTO);
 
-    void saveGoal(PlayerGoalDTO playerGoalDTO);
+    TeamScore saveGoal(PlayerGoalDTO playerGoalDTO);
 
     MatchDTO getMatchDto(Long id);
 

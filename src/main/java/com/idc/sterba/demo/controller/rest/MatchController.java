@@ -5,9 +5,11 @@ import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.dto.PlayerGoalDTO;
 import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.MatchDraft;
+import com.idc.sterba.demo.entity.TeamScore;
 import com.idc.sterba.demo.service.MatchDraftService;
 import com.idc.sterba.demo.service.MatchService;
 import com.idc.sterba.demo.service.RoundService;
+import com.idc.sterba.demo.service.TeamScoreService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,11 +20,14 @@ public class MatchController {
     private MatchService matchService;
     private RoundService roundService;
     private MatchDraftService matchDraftService;
+    private TeamScoreService teamScoreService;
 
-    public MatchController(MatchService matchService, MatchDraftService matchDraftService, RoundService roundService) {
+    public MatchController(MatchService matchService, MatchDraftService matchDraftService,
+                           RoundService roundService, TeamScoreService teamScoreService) {
         this.matchService = matchService;
         this.matchDraftService = matchDraftService;
         this.roundService = roundService;
+        this.teamScoreService = teamScoreService;
     }
 
     @RequestMapping(value = "/{matchId}", method = RequestMethod.POST)
@@ -63,9 +68,10 @@ public class MatchController {
 
     @RequestMapping(value = "/player/goal", method = RequestMethod.POST)
     public JSONResponse savePlayerGoal(@RequestBody PlayerGoalDTO playerGoalDTO) {
-        this.matchService.saveGoal(playerGoalDTO);
+        TeamScore teamScore = this.matchService.saveGoal(playerGoalDTO);
 
         ScoreDTO scoreDTO = this.roundService.getScoreOfRound(playerGoalDTO.getMatchId());
+        scoreDTO.setTeamScore(teamScore);
         return new JSONResponse(scoreDTO, true);
     }
 
@@ -85,4 +91,8 @@ public class MatchController {
         return new JSONResponse();
     }
 
+    @RequestMapping(value = "/{matchId}/revert/score", method = RequestMethod.POST)
+    public JSONResponse revertTeamScore(@PathVariable("matchId") Long matchId, @RequestBody TeamScore teamScore) {
+        return new JSONResponse(this.teamScoreService.removeTeamScore(teamScore, matchId));
+    }
 }
