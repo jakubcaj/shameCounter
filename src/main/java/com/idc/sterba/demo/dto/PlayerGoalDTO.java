@@ -5,6 +5,7 @@ import com.idc.sterba.demo.entity.enums.GoalTypeEnum;
 
 public class PlayerGoalDTO {
     private Long matchId;
+    private Long roundId;
     private Employee employee;
     private GoalTypeEnum goalType;
 
@@ -30,5 +31,13 @@ public class PlayerGoalDTO {
 
     public void setGoalType(GoalTypeEnum goalType) {
         this.goalType = goalType;
+    }
+
+    public Long getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(Long roundId) {
+        this.roundId = roundId;
     }
 }

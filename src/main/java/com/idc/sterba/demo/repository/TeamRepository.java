@@ -18,6 +18,9 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
             nativeQuery = true)
     Team getTeamByMatchId(Long matchId, Long employeeId);
 
+    Team getTeamByRound_RunningIsTrueAndTeamPlayerList_Employee_id(Long employeeId);
+
+    Team getTeamByTeamPlayerList_Employee_IdAndRound_Id(Long employeeId, Long RoundId);
 //    @Query(value = "select team from Team team join Ro")
 //    Team test(@Param("matchId") Long matchId,@Param("employeeId") Long employeeId);
 }

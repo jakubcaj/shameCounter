@@ -7,7 +7,6 @@ import com.idc.sterba.demo.entity.Round;
 import com.idc.sterba.demo.repository.RoundRepository;
 import com.idc.sterba.demo.service.MatchService;
 import com.idc.sterba.demo.service.RoundService;
-import com.idc.sterba.demo.util.PlayerUtil;
 import com.idc.sterba.demo.util.ScoreUtil;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class RoundServiceImpl implements RoundService {
 
         Round newRound = new Round(round);
         roundRepository.save(newRound);
-        return PlayerUtil.createMatchDTOFromMatch(newRound.getMatch());
+        return new MatchDTO(newRound.getMatch());
     }
 
     @Override
@@ -45,7 +44,7 @@ public class RoundServiceImpl implements RoundService {
         round.updateEmployeesPosition(matchDTO);
         roundRepository.save(round);
 
-        return PlayerUtil.createMatchDTOFromMatch(round.getMatch());
+        return new MatchDTO(round.getMatch());
     }
 
     @Override

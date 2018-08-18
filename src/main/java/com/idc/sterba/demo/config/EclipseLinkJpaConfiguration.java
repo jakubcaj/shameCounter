@@ -3,10 +3,8 @@ package com.idc.sterba.demo.config;
 
 import org.eclipse.persistence.config.BatchWriting;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
-import org.eclipse.persistence.logging.SessionLog;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers;
@@ -42,7 +40,7 @@ public class EclipseLinkJpaConfiguration extends JpaBaseConfiguration {
         final Map<String, String> ret = new HashMap<>();
         // Add any JpaProperty you are interested in and is supported by your Database and JPA implementation
         ret.put(PersistenceUnitProperties.BATCH_WRITING, BatchWriting.JDBC);
-        ret.put(PersistenceUnitProperties.LOGGING_LEVEL, SessionLog.FINE_LABEL);
+//        ret.put(PersistenceUnitProperties.LOGGING_LEVEL, SessionLog.FINE_LABEL);
         ret.put(PersistenceUnitProperties.WEAVING, "false");
         ret.put(PersistenceUnitProperties.DDL_GENERATION, "true");
         return ret;

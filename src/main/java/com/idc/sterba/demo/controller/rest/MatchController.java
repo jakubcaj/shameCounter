@@ -3,7 +3,6 @@ package com.idc.sterba.demo.controller.rest;
 import com.idc.sterba.demo.dto.JSONResponse;
 import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.dto.PlayerGoalDTO;
-import com.idc.sterba.demo.dto.ScoreDTO;
 import com.idc.sterba.demo.entity.MatchDraft;
 import com.idc.sterba.demo.entity.TeamScore;
 import com.idc.sterba.demo.service.MatchDraftService;
@@ -70,9 +69,9 @@ public class MatchController {
     public JSONResponse savePlayerGoal(@RequestBody PlayerGoalDTO playerGoalDTO) {
         TeamScore teamScore = this.matchService.saveGoal(playerGoalDTO);
 
-        ScoreDTO scoreDTO = this.roundService.getScoreOfRound(playerGoalDTO.getMatchId());
-        scoreDTO.setTeamScore(teamScore);
-        return new JSONResponse(scoreDTO, true);
+//        ScoreDTO scoreDTO = this.roundService.getScoreOfRound(playerGoalDTO.getMatchId());
+//        scoreDTO.setTeamScore(teamScore);
+        return new JSONResponse(teamScore);
     }
 
     @RequestMapping(value = "/unfinished", method = RequestMethod.POST)

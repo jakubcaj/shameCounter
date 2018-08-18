@@ -2,12 +2,16 @@ package com.idc.sterba.demo.dto;
 
 import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.Match;
+import com.idc.sterba.demo.entity.Round;
 import com.idc.sterba.demo.entity.enums.ColorEnum;
 import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
+
+import java.util.stream.Collectors;
 
 public class MatchDTO {
 
     private Long matchId;
+    private Long roundId;
     private Employee blueGoalman;
     private Employee blueAttacker;
     private Employee redGoalman;
@@ -23,6 +27,7 @@ public class MatchDTO {
         this.blueAttacker = match.getPlayer(PlayerRoleEnum.ATTACKER, ColorEnum.BLUE);
         this.redGoalman = match.getPlayer(PlayerRoleEnum.GOALMAN, ColorEnum.RED);
         this.redAttacker = match.getPlayer(PlayerRoleEnum.ATTACKER, ColorEnum.RED);
+        this.roundId = match.getRoundList().stream().filter(Round::isRunning).collect(Collectors.toList()).get(0).getId();
     }
 
     public Long getMatchId() {
@@ -63,5 +68,13 @@ public class MatchDTO {
 
     public void setRedAttacker(Employee redAttacker) {
         this.redAttacker = redAttacker;
+    }
+
+    public Long getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(Long roundId) {
+        this.roundId = roundId;
     }
 }
