@@ -11,6 +11,7 @@ import com.idc.sterba.demo.repository.MatchRepository;
 import com.idc.sterba.demo.repository.TeamRepository;
 import com.idc.sterba.demo.service.MatchService;
 import com.idc.sterba.demo.service.RoundService;
+import com.idc.sterba.demo.service.SecurityService;
 import com.idc.sterba.demo.util.ScoreUtil;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,14 @@ public class MatchServiceImpl implements MatchService {
     private MatchRepository matchRepository;
     private TeamRepository teamRepository;
     private RoundService roundService;
+    private SecurityService securityService;
 
-    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository, RoundService roundService) {
+    public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository,
+                            RoundService roundService, SecurityService securityService) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.roundService = roundService;
+        this.securityService = securityService;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<MatchDTO> getAllUnfinishedMatches() {
-        return matchRepository.findAllByFinishedOrderByIdAsc(false).stream().map(MatchDTO::new).collect(Collectors.toList());
+        return matchRepository.findAllUnfinishedMatchesByEmployee_id(this.securityService.getLoggedUser().getId())
+                .stream().map(MatchDTO::new).collect(Collectors.toList());
     }
 
     @Override

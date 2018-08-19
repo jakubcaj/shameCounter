@@ -57,10 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/angular**").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/api/authenticated/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/angular").loginProcessingUrl("/api/auth")
+                .formLogin().loginPage("/").loginProcessingUrl("/api/auth")
                 .usernameParameter("username").passwordParameter("password")
                 .successHandler(this::loginSuccessHandler)
                 .failureHandler(this::loginFailureHandler)
