@@ -22,7 +22,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "join r.teamList t " +
             "join t.teamPlayerList tp " +
             "join tp.employee e " +
-            "where m.finished = false and  e.id = :employeeId order by m.id asc")
+            "where m.finished = false and  e.id = :employeeId group by m.id order by m.id asc")
     List<Match> findAllUnfinishedMatchesByEmployee_id(@Param("employeeId") Long employeeId);
 
 //    where m.finished = false and m.id = :matchId

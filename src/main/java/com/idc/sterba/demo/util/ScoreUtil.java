@@ -30,19 +30,42 @@ public final class ScoreUtil {
     private static ScoreDTO getScore(List<Round> roundList) {
         ScoreDTO scoreResult = new ScoreDTO();
 
+        int index = 0;
         for (Round round : roundList.stream().filter(round -> !round.isRunning()).collect(Collectors.toList())) {
-            List<TeamScore> blueTeam = getTeamScoreFromRound(round, ColorEnum.BLUE);
-            List<TeamScore> redTeam = getTeamScoreFromRound(round, ColorEnum.RED);
+            List<TeamScore> blueTeamScoreList = getTeamScoreFromRound(round, ColorEnum.BLUE);
+            List<TeamScore> redTeamScoreList = getTeamScoreFromRound(round, ColorEnum.RED);
 
             ScoreDTO scoreDTO = new ScoreDTO();
-            calculateScore(blueTeam, redTeam, scoreDTO);
+            calculateScore(blueTeamScoreList, redTeamScoreList, scoreDTO);
 
-            if (scoreDTO.getBlueTeam() > scoreDTO.getRedTeam()) {
-                scoreResult.addBlueTeam();
-            } else if (scoreDTO.getRedTeam() > scoreDTO.getBlueTeam()) {
-                scoreResult.addRedTEam();
+            switch (roundList.size()) {
+                case 1:
+                    break;
+                case 2: {
+                    if (scoreDTO.getBlueTeam() > scoreDTO.getRedTeam()) {
+                        scoreResult.addRedTEam();
+                    } else if (scoreDTO.getRedTeam() > scoreDTO.getBlueTeam()) {
+                        scoreResult.addBlueTeam();
+                    }
+                } break;
+                case 3: {
+                    if(index % 2 == 0) {
+                        if (scoreDTO.getBlueTeam() > scoreDTO.getRedTeam()) {
+                            scoreResult.addBlueTeam();
+                        } else if (scoreDTO.getRedTeam() > scoreDTO.getBlueTeam()) {
+                            scoreResult.addRedTEam();
+                        }
+                    } else {
+                        if (scoreDTO.getBlueTeam() > scoreDTO.getRedTeam()) {
+                            scoreResult.addRedTEam();
+                        } else if (scoreDTO.getRedTeam() > scoreDTO.getBlueTeam()) {
+                            scoreResult.addBlueTeam();
+                        }
+                    }
+                } break;
+
             }
-
+            index++;
         }
 
         return scoreResult;
@@ -67,20 +90,20 @@ public final class ScoreUtil {
 
     private static List<TeamScore> getTeamScoreFromRound(Round round, ColorEnum color) {
         return round.getTeamList().stream()
-                        .filter(team -> team.getColor().equals(color))
-                        .flatMap(team -> team.getTeamScoreList().stream()).collect(Collectors.toList());
+                .filter(team -> team.getColor().equals(color))
+                .flatMap(team -> team.getTeamScoreList().stream()).collect(Collectors.toList());
     }
 
     private static void calculateScore(List<TeamScore> blueTeam, List<TeamScore> redTeam, ScoreDTO scoreDTO) {
-        for(TeamScore score : blueTeam) {
-            if(score.getGoalType().equals(GoalTypeEnum.OWN_GOAL)) {
+        for (TeamScore score : blueTeam) {
+            if (score.getGoalType().equals(GoalTypeEnum.OWN_GOAL)) {
                 scoreDTO.addRedTEam();
             } else {
                 scoreDTO.addBlueTeam();
             }
         }
-        for(TeamScore score : redTeam) {
-            if(score.getGoalType().equals(GoalTypeEnum.OWN_GOAL)) {
+        for (TeamScore score : redTeam) {
+            if (score.getGoalType().equals(GoalTypeEnum.OWN_GOAL)) {
                 scoreDTO.addBlueTeam();
             } else {
                 scoreDTO.addRedTEam();

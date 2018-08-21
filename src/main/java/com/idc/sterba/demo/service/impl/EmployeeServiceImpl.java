@@ -72,6 +72,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMetadataRepository.save(employeeMetadata);
     }
 
+    @Override
+    public void changePassword(String password) {
+        EmployeeMetadata employeeMetadata = this.employeeMetadataRepository.findByEmployee_Id(this.securityService.getLoggedUser().getId());
+        employeeMetadata.setPassword(this.securityService.hashPassword(password));
+
+        this.employeeMetadataRepository.save(employeeMetadata);
+    }
+
     private void validateRegisterForm(RegisterFormDTO registerFormDTO) {
         checkIfUsernameIsUnique(registerFormDTO.getUsername());
         checkIfEmailIsUnique(registerFormDTO.getEmail());

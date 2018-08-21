@@ -15,4 +15,6 @@ public interface EmployeeService {
     List<Employee> getEmployeesByGroup(Long groupId);
 
     void registerEmployee(RegisterFormDTO registerFormDTO);
+
+    void changePassword(String password);
 }

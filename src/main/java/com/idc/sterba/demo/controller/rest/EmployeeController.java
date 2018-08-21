@@ -49,4 +49,12 @@ public class EmployeeController {
         return new JSONResponse(this.employeeMetadataService.getPicture(userId));
     }
 
+    @RequestMapping(value = "/change/password", method = RequestMethod.POST)
+    public JSONResponse getPicture(@RequestBody String password) {
+        this.employeeService.changePassword(password);
+        JSONResponse jsonResponse = new JSONResponse();
+        jsonResponse.setSuccess(true);
+        return jsonResponse;
+    }
+
 }
