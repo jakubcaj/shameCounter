@@ -1,6 +1,8 @@
 package com.idc.sterba.demo.controller.rest;
 
 import com.idc.sterba.demo.dto.JSONResponse;
+import com.idc.sterba.demo.dto.PasswordDTO;
+import com.idc.sterba.demo.exception.PasswordNotMatchingException;
 import com.idc.sterba.demo.service.EmployeeMetadataService;
 import com.idc.sterba.demo.service.EmployeeService;
 import com.idc.sterba.demo.service.PlayerGroupService;
@@ -50,10 +52,16 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/change/password", method = RequestMethod.POST)
-    public JSONResponse getPicture(@RequestBody String password) {
-        this.employeeService.changePassword(password);
+    public JSONResponse getPicture(@RequestBody PasswordDTO passwordDTO) {
         JSONResponse jsonResponse = new JSONResponse();
-        jsonResponse.setSuccess(true);
+
+        try {
+            this.employeeService.changePassword(passwordDTO);
+            jsonResponse.setSuccess(true);
+        } catch (PasswordNotMatchingException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Bad current password.");
+        }
         return jsonResponse;
     }
 

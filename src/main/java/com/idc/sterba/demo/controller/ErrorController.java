@@ -1,7 +1,7 @@
 package com.idc.sterba.demo.controller;
 
-import com.idc.sterba.demo.exception.EmailAlreadyExistsException;
-import com.idc.sterba.demo.exception.UsernameAlreadyExistsException;
+import com.idc.sterba.demo.exception.runtime.EmailAlreadyExistsException;
+import com.idc.sterba.demo.exception.runtime.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

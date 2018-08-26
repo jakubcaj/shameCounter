@@ -9,4 +9,6 @@ public interface SecurityService {
     Employee getLoggedUser();
 
     String hashPassword(String password);
+
+    boolean passwordMatches(String rawPassword, String encodedPassword);
 }

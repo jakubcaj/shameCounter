@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class SecurityServiceImpl implements SecurityService {
 
     private final EmployeeRepository employeeRepository;
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public SecurityServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -30,7 +31,12 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public String hashPassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.encode(password);
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return SecurityServiceImpl.encoder.encode(password);
+    }
+
+    @Override
+    public boolean passwordMatches(String rawPassword, String encodedPassword) {
+        return SecurityServiceImpl.encoder.matches(rawPassword, encodedPassword);
     }
 }

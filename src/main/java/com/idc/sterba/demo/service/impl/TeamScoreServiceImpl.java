@@ -25,8 +25,8 @@ public class TeamScoreServiceImpl implements TeamScoreService {
     @Override
     public ScoreDTO removeTeamScore(TeamScore teamScore, Long matchId) {
         TeamScore realTeamScore = teamScoreRepository.getOne(teamScore.getId());
+        teamScoreRepository.delete(realTeamScore);
         Team team = realTeamScore.getTeam();
-
         team.setTeamScoreList(team.getTeamScoreList().stream().filter(x -> !x.getId().equals(realTeamScore.getId())).collect(Collectors.toList()));
         teamRepository.save(team);
 

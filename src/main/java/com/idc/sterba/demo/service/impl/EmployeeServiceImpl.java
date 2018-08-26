@@ -1,12 +1,14 @@
 package com.idc.sterba.demo.service.impl;
 
+import com.idc.sterba.demo.dto.PasswordDTO;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.Employee;
 import com.idc.sterba.demo.entity.PlayerGroup;
 import com.idc.sterba.demo.entity.secure.EmployeeMetadata;
 import com.idc.sterba.demo.entity.secure.Role;
-import com.idc.sterba.demo.exception.EmailAlreadyExistsException;
-import com.idc.sterba.demo.exception.UsernameAlreadyExistsException;
+import com.idc.sterba.demo.exception.PasswordNotMatchingException;
+import com.idc.sterba.demo.exception.runtime.EmailAlreadyExistsException;
+import com.idc.sterba.demo.exception.runtime.UsernameAlreadyExistsException;
 import com.idc.sterba.demo.repository.EmployeeMetadataRepository;
 import com.idc.sterba.demo.repository.EmployeeRepository;
 import com.idc.sterba.demo.service.EmployeeService;
@@ -73,9 +75,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void changePassword(String password) {
+    public void changePassword(PasswordDTO passwordDTO) throws PasswordNotMatchingException {
         EmployeeMetadata employeeMetadata = this.employeeMetadataRepository.findByEmployee_Id(this.securityService.getLoggedUser().getId());
-        employeeMetadata.setPassword(this.securityService.hashPassword(password));
+
+        if (this.securityService.passwordMatches(passwordDTO.getCurrentPassword(), employeeMetadata.getPassword())) {
+            employeeMetadata.setPassword(this.securityService.hashPassword(passwordDTO.getNewPassword()));
+        } else {
+            throw new PasswordNotMatchingException();
+        }
 
         this.employeeMetadataRepository.save(employeeMetadata);
     }

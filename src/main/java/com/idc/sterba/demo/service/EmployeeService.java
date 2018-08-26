@@ -1,7 +1,9 @@
 package com.idc.sterba.demo.service;
 
+import com.idc.sterba.demo.dto.PasswordDTO;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.Employee;
+import com.idc.sterba.demo.exception.PasswordNotMatchingException;
 
 import java.util.List;
 
@@ -16,5 +18,5 @@ public interface EmployeeService {
 
     void registerEmployee(RegisterFormDTO registerFormDTO);
 
-    void changePassword(String password);
+    void changePassword(PasswordDTO passwordDTO) throws PasswordNotMatchingException;
 }
