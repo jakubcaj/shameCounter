@@ -83,7 +83,7 @@ create view helper.round_winners as (
   where rg.total_goals = maxGoals.max_goals
   group by rg.round_id, rg.team_id, rg.total_goals, rg.employee_id, rg.goal_count, rg.player_role);
 
-create or replace view report.match_winner_report as (
+create or replace view helper.match_winners as (
   select
     m.id as match_id,
     subQuery.employee_id,
@@ -116,3 +116,10 @@ create or replace view report.match_winner_report as (
            group by m.id
          ) subQuery2 on subQuery2.match_id = m.id
   where subQuery.win_count = subQuery2.max_win_count and m.finished = true);
+
+create or replace view report.match_win_count_report as (
+  select e.id, e.firstname, e.lastname, count(mw.*) as win_count
+  from employee e
+    left join helper.match_winners mw on mw.employee_id = e.id
+  group by e.id, e.firstname, e.lastname
+  order by count(mw.*) desc );
