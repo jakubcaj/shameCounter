@@ -49,7 +49,7 @@ create or replace view helper.round_goals as (
            count(*) as total_goals
          from round r
            join team t on r.id = t.round_id
-           join teamscore t2 on t.id = t2.team_id
+           left join teamscore t2 on t.id = t2.team_id
            where r.running = false
          group by t.id, r.id) subQuery
     join team t on t.id = subQuery.team_id
@@ -118,8 +118,28 @@ create or replace view helper.match_winners as (
   where subQuery.win_count = subQuery2.max_win_count and m.finished = true);
 
 create or replace view report.match_win_count_report as (
-  select e.id, e.firstname, e.lastname, count(mw.*) as win_count
+  select
+    e.id,
+    e.firstname,
+    e.lastname,
+    count(mw.*) as win_count,
+    subQuery.match_count
   from employee e
     left join helper.match_winners mw on mw.employee_id = e.id
-  group by e.id, e.firstname, e.lastname
-  order by count(mw.*) desc );
+    join (
+           select
+             subQuery.employee_id,
+             count(subQuery.match_id) as match_count
+           from (
+                  select
+                    e.id as employee_id,
+                    m.id as match_id
+                  from employee e
+                    left join helper.round_goals rg on rg.employee_id = e.id
+                    left join round r on rg.round_id = r.id
+                    left join match m on r.match_id = m.id and m.finished = true
+                  group by e.id, m.id) subQuery
+           group by subQuery.employee_id
+         ) subQuery on subQuery.employee_id = e.id
+  group by e.id, e.firstname, e.lastname, subQuery.match_count
+  order by count(mw.*) desc, subQuery.match_count desc);
