@@ -143,3 +143,52 @@ create or replace view report.match_win_count_report as (
          ) subQuery on subQuery.employee_id = e.id
   group by e.id, e.firstname, e.lastname, subQuery.match_count
   order by count(mw.*) desc, subQuery.match_count desc);
+
+create or replace view report.employee_matches_report as (
+  select
+    row_number() over (),
+    e.id as employee_id,
+    e.firstname,
+    e.lastname,
+    m.id           as match_id,
+    rg_own.players as team_mate,
+    rg_en.players  as opponents,
+    case when mw.match_id is not null then true else false end as won
+  from employee e
+    left join (select
+                 subQ.employee_id,
+                 subQ.round_id,
+                 string_agg(e.firstname || ' ' || e.lastname, ', ') as players
+               from (select
+                       rg.employee_id,
+                       rg.round_id,
+                       rg_own.employee_id as player
+                     from helper.round_goals rg
+                       join helper.round_goals rg_own on rg_own.round_id = rg.round_id and rg_own.team_id = rg.team_id and
+                                                         rg_own.employee_id != rg.employee_id
+                     group by rg.employee_id, rg.round_id, rg_own.employee_id
+                    ) subQ
+                 join employee e on e.id = subQ.player
+               group by subQ.employee_id, subQ.round_id
+              ) rg_own on rg_own.employee_id = e.id
+    join round r on r.id = rg_own.round_id
+    join match m on r.match_id = m.id
+    join (select
+            subQ.employee_id,
+            subQ.match_id,
+            string_agg(e.firstname || ' ' || e.lastname, ', ') as players
+          from (select
+                  rg.employee_id,
+                  m.id               as match_id,
+                  rg_own.employee_id as player
+                from helper.round_goals rg
+                  join helper.round_goals rg_own on rg_own.round_id = rg.round_id and rg_own.team_id != rg.team_id
+                  join round r on r.id = rg.round_id
+                  join match m on r.match_id = m.id
+                group by rg.employee_id, m.id, rg_own.employee_id
+               ) subQ
+            join employee e on e.id = subQ.player
+          group by subQ.employee_id, subQ.match_id
+         ) rg_en on rg_en.employee_id = e.id and rg_en.match_id = m.id
+    left join helper.match_winners mw on mw.match_id = m.id and mw.employee_id = e.id
+  group by e.id, e.firstname, e.lastname, m.id, rg_own.players, rg_en.players, mw.match_id);
