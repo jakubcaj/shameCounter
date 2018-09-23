@@ -1,14 +1,16 @@
 package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.secure.EmployeeRole;
 import com.idc.sterba.demo.entity.secure.Role;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Entity(name = "employee")
+@Entity
 public class Employee {
 
     @Id
@@ -22,8 +24,9 @@ public class Employee {
     @Column(name = "lastName")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private List<PlayerGroup> playerGroup;
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
+    private List<EmployeePlayerGroup> employeePlayerGroupList;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
     @JsonManagedReference
@@ -63,12 +66,12 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public List<PlayerGroup> getPlayerGroup() {
-        return playerGroup;
+    public List<EmployeePlayerGroup> getPlayerGroup() {
+        return this.employeePlayerGroupList;
     }
 
-    public void setPlayerGroup(List<PlayerGroup> playerGroup) {
-        this.playerGroup = playerGroup;
+    public void setPlayerGroup(List<EmployeePlayerGroup> employeePlayerGroupList) {
+        this.employeePlayerGroupList = employeePlayerGroupList;
     }
 
     public List<EmployeeRole> getRoles() {
@@ -77,5 +80,10 @@ public class Employee {
 
     public void setRoles(List<EmployeeRole> roles) {
         this.roles = roles;
+    }
+
+    @JsonProperty(value = "playerGroup")
+    public List<PlayerGroup> getPlayerGroupList() {
+        return this.employeePlayerGroupList.stream().map(EmployeePlayerGroup::getPlayerGroup).collect(Collectors.toList());
     }
 }

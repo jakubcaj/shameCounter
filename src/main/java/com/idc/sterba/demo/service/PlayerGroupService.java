@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PlayerGroupService {
 
-    List<PlayerGroup> getLoggedUserGroups();
-
     PlayerGroup getPlayerGroupById(Long id);
+
+    List<PlayerGroup> getPlayerGroupsByLeader(Long leaderId);
 }

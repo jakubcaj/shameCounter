@@ -1,6 +1,9 @@
 package com.idc.sterba.demo.service;
 
 import com.idc.sterba.demo.entity.Employee;
+import com.idc.sterba.demo.entity.PlayerGroup;
+
+import java.util.List;
 
 public interface SecurityService {
 
@@ -9,6 +12,8 @@ public interface SecurityService {
     Employee getLoggedUser();
 
     String hashPassword(String password);
+
+    List<PlayerGroup> getLoggedUserGroups();
 
     boolean passwordMatches(String rawPassword, String encodedPassword);
 }

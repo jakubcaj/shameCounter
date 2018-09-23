@@ -3,6 +3,7 @@ package com.idc.sterba.demo.repository;
 import com.idc.sterba.demo.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,15 +15,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             nativeQuery = true)
     List<Employee> findAllBySearchTerm(String term);
 
-    @Query(value = "SELECT * from employee e " +
-            "join secure.employee_metadata em on em.employee_id = e.id " +
-            "where em.username = ?1", nativeQuery = true)
-    Employee findByUsername(String username);
+    @Query("select e from Employee e " +
+            "join EmployeeMetadata em on em.employee = e " +
+            "where em.username = :username")
+    Employee findByUsername(@Param("username") String username);
 
-    @Query(value = "SELECT * from employee e " +
-            "join secure.employee_metadata em on em.employee_id = e.id " +
-            "where em.email = ?1", nativeQuery = true)
-    Employee findByEmail(String email);
+    @Query("select e from Employee e " +
+            "join EmployeeMetadata em on em.employee = e " +
+            "where em.email = :email")
+    Employee findByEmail(@Param("email") String email);
 
     @Query(value = "SELECT * from employee e " +
             "join employee_player_group g on e.id = g.employee_id " +

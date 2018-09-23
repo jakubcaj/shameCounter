@@ -1,5 +1,7 @@
 package com.idc.sterba.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "player_group")
@@ -12,6 +14,10 @@ public class PlayerGroup {
 
     @Column(name = "name")
     private String name;
+
+    @OneToOne
+    @JsonBackReference
+    private Employee leader;
 
     public Long getId() {
         return id;
@@ -27,5 +33,13 @@ public class PlayerGroup {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Employee getLeader() {
+        return leader;
+    }
+
+    public void setLeader(Employee leader) {
+        this.leader = leader;
     }
 }

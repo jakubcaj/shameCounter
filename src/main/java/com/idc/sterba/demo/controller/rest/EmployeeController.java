@@ -5,7 +5,7 @@ import com.idc.sterba.demo.dto.PasswordDTO;
 import com.idc.sterba.demo.exception.PasswordNotMatchingException;
 import com.idc.sterba.demo.service.EmployeeMetadataService;
 import com.idc.sterba.demo.service.EmployeeService;
-import com.idc.sterba.demo.service.PlayerGroupService;
+import com.idc.sterba.demo.service.SecurityService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,13 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/api/employee")
 public class EmployeeController {
 
-    private PlayerGroupService teamService;
+    private SecurityService securityService;
     private EmployeeService employeeService;
     private EmployeeMetadataService employeeMetadataService;
 
 
-    public EmployeeController(PlayerGroupService teamService, EmployeeService employeeService, EmployeeMetadataService employeeMetadataService) {
-        this.teamService = teamService;
+    public EmployeeController(SecurityService securityService, EmployeeService employeeService, EmployeeMetadataService employeeMetadataService) {
+        this.securityService = securityService;
         this.employeeService = employeeService;
         this.employeeMetadataService = employeeMetadataService;
     }
@@ -28,7 +28,7 @@ public class EmployeeController {
     @RequestMapping(value = "/groups", method = RequestMethod.POST)
     public JSONResponse getUserTeams() {
         JSONResponse jsonResponse = new JSONResponse();
-        jsonResponse.setObject(teamService.getLoggedUserGroups());
+        jsonResponse.setObject(securityService.getLoggedUserGroups());
         jsonResponse.setSuccess(true);
         return jsonResponse;
     }

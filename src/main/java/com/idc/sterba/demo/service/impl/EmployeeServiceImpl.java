@@ -3,6 +3,7 @@ package com.idc.sterba.demo.service.impl;
 import com.idc.sterba.demo.dto.PasswordDTO;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.Employee;
+import com.idc.sterba.demo.entity.EmployeePlayerGroup;
 import com.idc.sterba.demo.entity.PlayerGroup;
 import com.idc.sterba.demo.entity.secure.EmployeeMetadata;
 import com.idc.sterba.demo.entity.secure.Role;
@@ -66,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Role role = roleService.getRoleById(1L);
         Employee employee = new Employee(registerFormDTO, role);
         PlayerGroup playerGroup = playerGroupService.getPlayerGroupById(1L);
-        employee.setPlayerGroup(List.of(playerGroup));
+        employee.setPlayerGroup(List.of(new EmployeePlayerGroup(employee, playerGroup)));
 
         employeeRepository.save(employee);
 
