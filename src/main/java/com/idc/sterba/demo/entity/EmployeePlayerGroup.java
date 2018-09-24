@@ -1,6 +1,6 @@
 package com.idc.sterba.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ public class EmployeePlayerGroup {
     private Long id;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonBackReference
     private Employee employee;
 
     @OneToOne
