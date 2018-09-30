@@ -24,6 +24,10 @@ public class Match {
     @Column
     private boolean finished = false;
 
+    @ManyToOne
+    @JsonManagedReference
+    private Season season;
+
     public Match() {
     }
 
@@ -65,6 +69,11 @@ public class Match {
         }).collect(Collectors.toList()).get(0);
     }
 
+    public Season getSeason() {
+        return season;
+    }
 
-
+    public void setSeason(Season season) {
+        this.season = season;
+    }
 }

@@ -13,6 +13,8 @@ import java.util.List;
 @Transactional
 public interface EmployeeMatchesReportRepository extends JpaRepository<EmployeeMatchesReport, Long> {
 
-    @Query("select emr from EmployeeMatchesReport emr where emr.employeeId = :employeeId")
-    List<EmployeeMatchesReport> getReportData(@Param("employeeId") Long employeeId);
+    @Query("select emr from EmployeeMatchesReport emr " +
+            "where emr.employeeId = :employeeId and emr.seasonId in :seasonIds and emr.groupId in :groupIds")
+    List<EmployeeMatchesReport> getReportData(@Param("employeeId") Long employeeId, @Param("seasonIds") List<Long> seasonIds,
+                                              @Param("groupIds") List<Long> groupIds);
 }

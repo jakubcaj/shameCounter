@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         validateRegisterForm(registerFormDTO);
         registerFormDTO.setPassword(securityService.hashPassword(registerFormDTO.getPassword()));
 
-        Role role = roleService.getRoleById(1L);
+        Role role = roleService.getRoleById(2L);
         Employee employee = new Employee(registerFormDTO, role);
         PlayerGroup playerGroup = playerGroupService.getPlayerGroupById(1L);
         employee.setPlayerGroup(List.of(new EmployeePlayerGroup(employee, playerGroup)));

@@ -1,7 +1,9 @@
 package com.idc.sterba.demo.service.impl;
 
+import com.idc.sterba.demo.dto.FilterDTO;
 import com.idc.sterba.demo.entity.report.EmployeeMatchesReport;
 import com.idc.sterba.demo.entity.report.MatchWinCountReport;
+import com.idc.sterba.demo.exception.EmptyFilterException;
 import com.idc.sterba.demo.repository.report.EmployeeMatchesReportRepository;
 import com.idc.sterba.demo.repository.report.MatchWinCountReportRepository;
 import com.idc.sterba.demo.service.ReportService;
@@ -20,12 +22,20 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<MatchWinCountReport> getMatchWinCountReport() {
-        return this.matchWinCountReportRepository.getReportData();
+    public List<MatchWinCountReport> getMatchWinCountReport(FilterDTO filterDTO) throws EmptyFilterException {
+        if (filterDTO.isFilterFilled()) {
+            return this.matchWinCountReportRepository.getReportData(filterDTO.getSeasonIds(), filterDTO.getGroupIds());
+        } else {
+            throw new EmptyFilterException();
+        }
     }
 
     @Override
-    public List<EmployeeMatchesReport> getEmployeeMatchesReport(Long employeeId) {
-        return this.employeeMatchesReportRepository.getReportData(employeeId);
+    public List<EmployeeMatchesReport> getEmployeeMatchesReport(FilterDTO filterDTO, Long employeeId) throws EmptyFilterException {
+        if (filterDTO.isFilterFilled()) {
+            return this.employeeMatchesReportRepository.getReportData(employeeId, filterDTO.getSeasonIds(), filterDTO.getGroupIds());
+        } else {
+            throw new EmptyFilterException();
+        }
     }
 }

@@ -6,12 +6,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface EmployeePlayerGroupRepository extends JpaRepository<EmployeePlayerGroup, Long> {
 
-    @Transactional
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("update employee_player_group epg set epg.chanceCoeficient = :coeficient where epg.employee.id = :employeeId and epg.playerGroup.id = :groupId")
     void updateCoeficient(@Param("coeficient") Double coeficient, @Param("employeeId") Long employeeId, @Param("groupId") Long groupId);

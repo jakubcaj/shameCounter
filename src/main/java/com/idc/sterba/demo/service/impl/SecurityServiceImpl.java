@@ -9,7 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
@@ -33,8 +35,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public boolean isUserAuthenticated() {
-        return !SecurityContextHolder.getContext().getAuthentication()
-                .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"));
+        return !hasUserRole("ROLE_ANONYMOUS");
     }
 
     @Override
@@ -45,5 +46,16 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public boolean passwordMatches(String rawPassword, String encodedPassword) {
         return SecurityServiceImpl.encoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public boolean canUserSeeAdminPage() {
+        return hasUserRole("ROLE_ADMIN");
+    }
+
+    private boolean hasUserRole(String... role) {
+        return SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().stream().anyMatch(Arrays.stream(role).map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList())::contains);
     }
 }

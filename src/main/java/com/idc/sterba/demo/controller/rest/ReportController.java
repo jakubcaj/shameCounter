@@ -1,10 +1,10 @@
 package com.idc.sterba.demo.controller.rest;
 
+import com.idc.sterba.demo.dto.FilterDTO;
 import com.idc.sterba.demo.dto.JSONResponse;
+import com.idc.sterba.demo.exception.EmptyFilterException;
 import com.idc.sterba.demo.service.ReportService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,12 +18,29 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/matchWinCountReport", method = RequestMethod.POST)
-    public JSONResponse getMatchWinCountReport() {
-        return new JSONResponse(reportService.getMatchWinCountReport());
+    public JSONResponse getMatchWinCountReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getMatchWinCountReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
     }
 
-    @RequestMapping(value = "/employeeMatchesReport", method = RequestMethod.POST)
-    public JSONResponse getEmployeeMatchesReport(@RequestBody Long employeeId) {
-        return new JSONResponse(reportService.getEmployeeMatchesReport(employeeId));
+    @RequestMapping(value = "/employeeMatchesReport/{employeeId}", method = RequestMethod.POST)
+    public JSONResponse getEmployeeMatchesReport(@PathVariable("employeeId") Long employeeId, @RequestBody FilterDTO filterDTO) {
+
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getEmployeeMatchesReport(filterDTO, employeeId));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
     }
 }

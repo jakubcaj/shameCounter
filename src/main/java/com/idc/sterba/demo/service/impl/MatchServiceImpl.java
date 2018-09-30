@@ -11,6 +11,7 @@ import com.idc.sterba.demo.repository.MatchRepository;
 import com.idc.sterba.demo.repository.TeamRepository;
 import com.idc.sterba.demo.service.MatchService;
 import com.idc.sterba.demo.service.RoundService;
+import com.idc.sterba.demo.service.SeasonService;
 import com.idc.sterba.demo.service.SecurityService;
 import com.idc.sterba.demo.util.ScoreUtil;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,16 @@ public class MatchServiceImpl implements MatchService {
     private TeamRepository teamRepository;
     private RoundService roundService;
     private SecurityService securityService;
+    private SeasonService seasonService;
 
     public MatchServiceImpl(MatchRepository matchRepository, TeamRepository teamRepository,
-                            RoundService roundService, SecurityService securityService) {
+                            RoundService roundService, SecurityService securityService,
+                            SeasonService seasonService) {
         this.matchRepository = matchRepository;
         this.teamRepository = teamRepository;
         this.roundService = roundService;
         this.securityService = securityService;
+        this.seasonService = seasonService;
     }
 
     @Override
@@ -73,6 +77,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Match saveMatch(MatchDTO matchDTO) {
         Match match = new Match(matchDTO);
+        match.setSeason(this.seasonService.getActiveSeason());
         matchRepository.save(match);
         matchDTO.setMatchId(match.getId());
         return match;

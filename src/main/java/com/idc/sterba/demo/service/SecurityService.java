@@ -15,5 +15,7 @@ public interface SecurityService {
 
     List<PlayerGroup> getLoggedUserGroups();
 
+    boolean canUserSeeAdminPage();
+
     boolean passwordMatches(String rawPassword, String encodedPassword);
 }
