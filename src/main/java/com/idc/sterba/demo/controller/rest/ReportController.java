@@ -43,4 +43,17 @@ public class ReportController {
         }
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/roundWinCountReport", method = RequestMethod.POST)
+    public JSONResponse getRoundWinCountReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getRoundWinCountReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
 }
