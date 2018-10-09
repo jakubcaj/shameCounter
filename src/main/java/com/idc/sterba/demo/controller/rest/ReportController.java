@@ -56,4 +56,17 @@ public class ReportController {
         }
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/goalDidGetReport", method = RequestMethod.POST)
+    public JSONResponse getGoalDidGetReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getGoalDidGetReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
 }
