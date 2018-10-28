@@ -1,10 +1,7 @@
 package com.idc.sterba.demo.service;
 
 import com.idc.sterba.demo.dto.FilterDTO;
-import com.idc.sterba.demo.entity.report.EmployeeMatchesReport;
-import com.idc.sterba.demo.entity.report.GoalDidGetReport;
-import com.idc.sterba.demo.entity.report.MatchWinCountReport;
-import com.idc.sterba.demo.entity.report.RoundWinCountReport;
+import com.idc.sterba.demo.entity.report.*;
 import com.idc.sterba.demo.exception.EmptyFilterException;
 
 import java.util.List;
@@ -18,4 +15,6 @@ public interface ReportService {
     List<RoundWinCountReport> getRoundWinCountReport(FilterDTO filterDTO) throws EmptyFilterException;
 
     List<GoalDidGetReport> getGoalDidGetReport (FilterDTO filterDTO) throws EmptyFilterException;
+
+    List<MatchPositionReport> getMatchPositionReport (FilterDTO filterDTO) throws EmptyFilterException;
 }

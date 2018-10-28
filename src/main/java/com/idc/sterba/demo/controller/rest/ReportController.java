@@ -69,4 +69,17 @@ public class ReportController {
         }
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/matchPositionReport", method = RequestMethod.POST)
+    public JSONResponse getMatchPositionReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getMatchPositionReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
 }
