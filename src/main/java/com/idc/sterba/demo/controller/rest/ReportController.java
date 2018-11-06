@@ -82,4 +82,43 @@ public class ReportController {
         }
         return jsonResponse;
     }
+
+    @RequestMapping(value = "/ownGoalReport", method = RequestMethod.POST)
+    public JSONResponse getOwnGoalReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getOwnGoalReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
+
+    @RequestMapping(value = "/stampGoalReport", method = RequestMethod.POST)
+    public JSONResponse getStampGoalReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getStampGoalReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
+
+    @RequestMapping(value = "/faggyGoalReport", method = RequestMethod.POST)
+    public JSONResponse getFaggyGoalReport(@RequestBody FilterDTO filterDTO) {
+        JSONResponse jsonResponse = new JSONResponse();
+        try {
+            jsonResponse.setObject(reportService.getFaggyGoalReport(filterDTO));
+            jsonResponse.setSuccess(true);
+        } catch (EmptyFilterException e) {
+            jsonResponse.setSuccess(false);
+            jsonResponse.setErrorMessage("Filter is empty.");
+        }
+        return jsonResponse;
+    }
 }

@@ -16,15 +16,22 @@ public class ReportServiceImpl implements ReportService {
     private RoundWinCountReportRepository roundWinCountReportRepository;
     private GoalDidGetReportRepository goalDidGetReportRepository;
     private MatchPositionReportRepository matchPositionReportRepository;
+    private OwnGoalReportRepository ownGoalReportRepository;
+    private StampGoalReportRepository stampGoalReportRepository;
+    private FaggyGoalReportRepository faggyGoalReportRepository;
 
     public ReportServiceImpl(MatchWinCountReportRepository matchWinCountReportRepository, EmployeeMatchesReportRepository employeeMatchesReportRepository,
                              RoundWinCountReportRepository roundWinCountReportRepository, GoalDidGetReportRepository goalDidGetReportRepository,
-                             MatchPositionReportRepository matchPositionReportRepository) {
+                             MatchPositionReportRepository matchPositionReportRepository, OwnGoalReportRepository ownGoalReportRepository,
+                             StampGoalReportRepository stampGoalReportRepository, FaggyGoalReportRepository faggyGoalReportRepository) {
         this.matchWinCountReportRepository = matchWinCountReportRepository;
         this.employeeMatchesReportRepository = employeeMatchesReportRepository;
         this.roundWinCountReportRepository = roundWinCountReportRepository;
         this.goalDidGetReportRepository = goalDidGetReportRepository;
         this.matchPositionReportRepository = matchPositionReportRepository;
+        this.ownGoalReportRepository = ownGoalReportRepository;
+        this.stampGoalReportRepository = stampGoalReportRepository;
+        this.faggyGoalReportRepository = faggyGoalReportRepository;
     }
 
     @Override
@@ -67,6 +74,33 @@ public class ReportServiceImpl implements ReportService {
     public List<MatchPositionReport> getMatchPositionReport(FilterDTO filterDTO) throws EmptyFilterException {
         if (filterDTO.isFilterFilled()) {
             return this.matchPositionReportRepository.getReportData(filterDTO.getSeasonIds(), filterDTO.getGroupIds());
+        } else {
+            throw new EmptyFilterException();
+        }
+    }
+
+    @Override
+    public List<OwnGoalReport> getOwnGoalReport(FilterDTO filterDTO) throws EmptyFilterException {
+        if (filterDTO.isFilterFilled()) {
+            return this.ownGoalReportRepository.getReportData(filterDTO.getSeasonIds(), filterDTO.getGroupIds());
+        } else {
+            throw new EmptyFilterException();
+        }
+    }
+
+    @Override
+    public List<StampGoalReport> getStampGoalReport(FilterDTO filterDTO) throws EmptyFilterException {
+        if (filterDTO.isFilterFilled()) {
+            return this.stampGoalReportRepository.getReportData(filterDTO.getSeasonIds(), filterDTO.getGroupIds());
+        } else {
+            throw new EmptyFilterException();
+        }
+    }
+
+    @Override
+    public List<FaggyGoalReport> getFaggyGoalReport(FilterDTO filterDTO) throws EmptyFilterException {
+        if (filterDTO.isFilterFilled()) {
+            return this.faggyGoalReportRepository.getReportData(filterDTO.getSeasonIds(), filterDTO.getGroupIds());
         } else {
             throw new EmptyFilterException();
         }

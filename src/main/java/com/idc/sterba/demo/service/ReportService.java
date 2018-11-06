@@ -17,4 +17,10 @@ public interface ReportService {
     List<GoalDidGetReport> getGoalDidGetReport (FilterDTO filterDTO) throws EmptyFilterException;
 
     List<MatchPositionReport> getMatchPositionReport (FilterDTO filterDTO) throws EmptyFilterException;
+
+    List<OwnGoalReport> getOwnGoalReport (FilterDTO filterDTO) throws EmptyFilterException;
+
+    List<StampGoalReport> getStampGoalReport (FilterDTO filterDTO) throws EmptyFilterException;
+
+    List<FaggyGoalReport> getFaggyGoalReport (FilterDTO filterDTO) throws EmptyFilterException;
 }
