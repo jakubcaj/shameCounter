@@ -40,7 +40,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match getMatch(Long id) {
-        return matchRepository.getMatchByFinishedAndId(false, id);
+        return matchRepository.findByFinishedAndId(false, id);
     }
 
     @Override

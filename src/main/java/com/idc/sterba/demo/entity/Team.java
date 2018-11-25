@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.idc.sterba.demo.entity.enums.ColorEnum;
 import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Cache(shared = false)
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teamIdSeq")

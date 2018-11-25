@@ -2,10 +2,12 @@ package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 
 @Entity
+@Cache(shared = false)
 public class TeamPlayer {
 
     @Id

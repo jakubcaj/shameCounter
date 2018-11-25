@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.idc.sterba.demo.dto.RegisterFormDTO;
 import com.idc.sterba.demo.entity.secure.EmployeeRole;
 import com.idc.sterba.demo.entity.secure.Role;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Cache(shared = false)
 public class Employee {
 
     @Id

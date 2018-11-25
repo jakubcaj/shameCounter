@@ -68,9 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
                 .logoutSuccessHandler(this::logoutSuccessHandler)
-//                .and().exceptionHandling()
-//                .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
-//                        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and().exceptionHandling()
+                .authenticationEntryPoint((httpServletRequest, httpServletResponse, e) ->
+                        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .logout()
                 .permitAll();
@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    //IMPORTANT -  handlers are in place to override default behavior of redirecting
     private void loginSuccessHandler(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
         response.setStatus(HttpStatus.OK.value());

@@ -1,11 +1,13 @@
 package com.idc.sterba.demo.entity;
 
 import com.idc.sterba.demo.dto.MatchDTO;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Cache(shared = false)
 public class MatchDraft {
 
     @Id

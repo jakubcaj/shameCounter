@@ -69,8 +69,6 @@ public class MatchController {
     public JSONResponse savePlayerGoal(@RequestBody PlayerGoalDTO playerGoalDTO) {
         TeamScore teamScore = this.matchService.saveGoal(playerGoalDTO);
 
-//        ScoreDTO scoreDTO = this.roundService.getScoreOfRound(playerGoalDTO.getMatchId());
-//        scoreDTO.setTeamScore(teamScore);
         return new JSONResponse(teamScore);
     }
 
@@ -90,8 +88,13 @@ public class MatchController {
         return new JSONResponse();
     }
 
-    @RequestMapping(value = "/{matchId}/revert/score", method = RequestMethod.POST)
-    public JSONResponse revertTeamScore(@PathVariable("matchId") Long matchId, @RequestBody TeamScore teamScore) {
-        return new JSONResponse(this.teamScoreService.removeTeamScore(teamScore, matchId));
+    @RequestMapping(value = "/{matchId}/teamScore", method = RequestMethod.POST)
+    public JSONResponse getAllTeamScore(@PathVariable("matchId") Long matchId) {
+        return new JSONResponse(this.teamScoreService.getAllTeamScore(matchId));
+    }
+
+    @RequestMapping(value = "/revert/score/{teamScoreId}", method = RequestMethod.POST)
+    public JSONResponse revertTeamScore(@PathVariable("teamScoreId") Long teamScoreId) {
+        return new JSONResponse(this.teamScoreService.removeTeamScore(teamScoreId));
     }
 }

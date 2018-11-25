@@ -1,8 +1,12 @@
 package com.idc.sterba.demo.service;
 
-import com.idc.sterba.demo.dto.ScoreDTO;
+import com.idc.sterba.demo.dto.RevertedScoreDTO;
 import com.idc.sterba.demo.entity.TeamScore;
 
+import java.util.List;
+
 public interface TeamScoreService {
-    ScoreDTO removeTeamScore(TeamScore teamScore, Long matchId);
+    RevertedScoreDTO removeTeamScore(Long teamScoreId);
+
+    List<TeamScore> getAllTeamScore(Long matchId);
 }

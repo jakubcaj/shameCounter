@@ -1,10 +1,12 @@
 package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 
 @Entity(name = "player_group")
+@Cache(shared = false)
 public class PlayerGroup {
 
     @Id

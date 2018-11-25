@@ -6,12 +6,14 @@ import com.idc.sterba.demo.dto.MatchDTO;
 import com.idc.sterba.demo.entity.enums.ColorEnum;
 import com.idc.sterba.demo.entity.enums.PlayerRoleEnum;
 import com.idc.sterba.demo.util.PlayerUtil;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Cache(shared = false)
 public class Round {
 
     @Id

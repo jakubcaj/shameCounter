@@ -2,12 +2,14 @@ package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.idc.sterba.demo.entity.enums.SeasonEnum;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Cache(shared = false)
 public class Season {
 
     @Id

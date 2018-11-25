@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
-    Match getMatchByFinishedAndId(boolean finished, Long id);
+    Match findByFinishedAndId(boolean finished, Long id);
 
     List<Match> findAllByFinishedOrderByIdAsc(boolean finished);
 

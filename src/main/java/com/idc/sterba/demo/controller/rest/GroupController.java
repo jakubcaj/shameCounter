@@ -30,6 +30,7 @@ public class GroupController {
     }
 
     @RequestMapping(value = "/coeficient/{groupId}", method = RequestMethod.POST)
+//    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     public JSONResponse getEmployeesWithCoeficient(@PathVariable("groupId") Long groupId) {
 
         return new JSONResponse(employeeService.getEmployeesByGroup(groupId).stream()

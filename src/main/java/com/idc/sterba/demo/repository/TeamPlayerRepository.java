@@ -1,13 +1,13 @@
 package com.idc.sterba.demo.repository;
 
-import com.idc.sterba.demo.entity.TeamScore;
+import com.idc.sterba.demo.entity.TeamPlayer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface TeamScoreRepository extends JpaRepository<TeamScore, Long> {
+public interface TeamPlayerRepository extends JpaRepository<TeamPlayer, Long> {
 
-    List<TeamScore> findAllByTeam_Round_Match_Id(Long matchId);
+    List<TeamPlayer> findAllByTeam_Id(Long teamId);
 }

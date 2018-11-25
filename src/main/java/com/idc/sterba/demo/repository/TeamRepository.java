@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
@@ -23,4 +25,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     Team getTeamByTeamPlayerList_Employee_IdAndRound_Id(Long employeeId, Long RoundId);
 //    @Query(value = "select team from Team team join Ro")
 //    Team test(@Param("matchId") Long matchId,@Param("employeeId") Long employeeId);
+
+    List<Team> findAllByRound_Id(Long roundId);
 }

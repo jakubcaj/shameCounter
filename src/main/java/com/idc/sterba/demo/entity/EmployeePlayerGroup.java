@@ -1,11 +1,13 @@
 package com.idc.sterba.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 
 
 @Entity(name = "employee_player_group")
+@Cache(shared = false)
 public class EmployeePlayerGroup {
 
     @Id

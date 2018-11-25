@@ -13,4 +13,10 @@ public interface RoundService {
     MatchDTO updateRound(MatchDTO matchDTO);
 
     ScoreDTO getScoreOfRound(Long matchId);
+
+    void deleteRunningRound(Long matchId);
+
+    void setLastRoundAsRunning(Long matchId);
+
+    Round getActiveRound(Long matchId);
 }
