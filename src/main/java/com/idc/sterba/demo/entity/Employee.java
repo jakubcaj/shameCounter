@@ -9,6 +9,7 @@ import org.eclipse.persistence.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,10 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<EmployeeRole> roles;
+
+    @Column(name = "deleted_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deleted_date;
 
     public Employee() {
     }
@@ -75,6 +80,14 @@ public class Employee {
 
     public void setPlayerGroup(List<EmployeePlayerGroup> employeePlayerGroupList) {
         this.employeePlayerGroupList = employeePlayerGroupList;
+    }
+
+    public Date getDeleted_date() {
+        return deleted_date;
+    }
+
+    public void setDeleted_date(Date deleted_date) {
+        this.deleted_date = deleted_date;
     }
 
     public List<EmployeeRole> getRoles() {
